@@ -40,6 +40,7 @@
         console.log('Successfully created user with email and password')
         vm.sharedState.state.auth.user = vm.sharedState.firebase.auth().currentUser
         console.log('current user: ' + vm.sharedState.state.auth.user)
+        console.log('returned data :\n' + JSON.stringify(data))
       }).catch(function (error) {
         console.log('error in sign up')
         vm.sharedState.state.auth.message = error.message

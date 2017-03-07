@@ -16,9 +16,9 @@
   </nav>
 
   <div id="navigator">
-    <a href="">The Guide</a>
-    <a href="">My Stuff</a>
-    <a href="">News</a>
+    <div href="">The Guide</div>
+    <div v-on:click="goToMyStuff">My Stuff</div>
+    <div href="">News</div>
   </div>
   <SignUp v-if="showSignUpModal" @close="showSignUpModal = false"></SignUp>
   <Login v-if="showLoginModal" @close="showLoginModal = false"></Login>
@@ -29,6 +29,8 @@
 import SignUp from './SignUp'
 import store from '../storage'
 import Login from './Login'
+import router from '../router/index'
+
 export default {
   name: 'nav',
   components: { SignUp, Login },
@@ -37,15 +39,22 @@ export default {
       showSignUpModal: false,
       showLoginModal: false,
       showSignOutModal: false,
-      sharedState: store
+      sharedState: store,
+      router: router
     }
   },
   computed: {
     isAuthenticated: function () {
       this.sharedState.firebase.auth().onAuthStateChanged(function (user) {
+        console.log('onAuthStateChanged')
         if (user) {
           this.sharedState.state.auth.user = user
-        } else this.sharedState.state.auth.user = null
+          this.sharedState.state.userlink =
+            this.sharedState.state.auth.user.uid
+        } else {
+          this.sharedState.state.auth.user = null
+          this.shared.state.userlink = null
+        }
       }.bind(this))
       return (this.sharedState.state.auth.user !== null)
     }
@@ -53,6 +62,16 @@ export default {
   watch: {
     showSignUpModal: function (val) {
       console.log(this.sharedState.state.auth)
+    }
+  },
+  methods: {
+    goToMyStuff: function (event) {
+      if (!this.isAuthenticated) {
+        this.showLoginModal = true
+        return
+      }
+      console.log(this.sharedState.state.auth)
+      router.push({name: 'ProfilePage', params: {id: this.sharedState.state.userlink}})
     }
   }
 }

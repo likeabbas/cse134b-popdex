@@ -24,6 +24,7 @@ module.exports = {
       hasErrors: false
     }
   },
+  userlink: null,
   setMessageAction (newValue) {
     this.debug && console.log('setMessageAction triggered with', newValue)
     this.state.message = newValue

@@ -8,12 +8,12 @@
         <div class="col s4">
           <div class=userCollectionWishlistBox>
             <h5>{{username}}'s Stuff</h5>
-            <a class="waves-effect waves-light btn">Button 1</a>            
-            <a class="waves-effect waves-light btn">Button 2</a>
+            <a class="waves-effect waves-light btn">Wish List</a>            
+            <a class="waves-effect waves-light btn">Collection</a>
           </div>
         </div>
 
-        <div class="col s8">
+        <!--<div class="col s8">
           <form>
             <p>
               <input type="checkbox" id="check1" />
@@ -27,7 +27,7 @@
               <input type="checkbox" id="check3" />
               <label for="test5">Hey</label>
             </p>
-          </form></div>
+          </form></div> -->
           <div class="col s12">
             <form>   
               <div class="input-field col s4">

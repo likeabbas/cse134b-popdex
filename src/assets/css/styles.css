@@ -12,17 +12,19 @@
   background-color: #99FFCC;
   border: 2px solid #000;
 }
-#navigator a {
+#navigator div {
   display: inline-block;
   width: 30vw;
   text-align: center;
   color: #000;
   margin: 10px;
+  cursor: pointer;
+  cursor: hand;
 }
-#navigator a{
+#navigator div{
   border-right: 1px solid #000;
 }
-#navigator a:last-child {
+#navigator div:last-child {
   border-right: none;
 }
 #preContent {
@@ -55,6 +57,8 @@
 }
 .userCollectionWishlistBox a.btn {
   margin: 10px;
+  font-size: 14px;
+  text-align: center;
 }
 .userCollectionWishlistBox {
   text-align: center;
