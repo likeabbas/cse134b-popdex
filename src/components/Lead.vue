@@ -13,7 +13,8 @@
               v-for="item in items" 
               v-bind:itemBrand="item.itemBrand" 
               v-bind:itemName="item.itemName" 
-              v-bind:itemPictureSource="item.itemPictureSource">
+              v-bind:itemPictureSource="item.itemPictureSource"
+              :key="item.itemName">
             </FrontPage>
           </div>
         </div>

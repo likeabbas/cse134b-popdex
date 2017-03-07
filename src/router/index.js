@@ -1,9 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 
-import Lead from '@/components/Lead'
-
 Vue.use(Router)
+import Lead from '@/components/Lead'
+import ProfilePage from '@/components/ProfilePage'
 
 export default new Router({
   routes: [
@@ -11,6 +11,11 @@ export default new Router({
       path: '/',
       name: 'Lead',
       component: Lead
+    },
+    {
+      path: '/user/:id',
+      name: 'ProfilePage',
+      component: ProfilePage
     }
   ]
 })

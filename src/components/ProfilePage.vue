@@ -7,7 +7,7 @@
       
         <div class="col s4">
           <div class=userCollectionWishlistBox>
-            <h5>Adam's Stuff</h5>
+            <h5>{{username}}'s Stuff</h5>
             <a class="waves-effect waves-light btn">Button 1</a>            
             <a class="waves-effect waves-light btn">Button 2</a>
           </div>
@@ -33,58 +33,29 @@
               <div class="input-field col s4">
                 <input type=text name=filterSearch placeholder="Filter Search">
               </div>
-              <div class="input-field col s4">
-                <select class="browser-default">
-                  <option value="volvo">Volvo</option>
-                  <option value="saab">Saab</option>
-                  <option value="opel">Opel</option>
-                  <option value="audi">Audi</option>
+              <div id="brand-selector" class="input-field col s4">
+                <select v-model="selectedBrand" v-on:change="brandChange" class="browser-default">
+                  <option v-for="option in brandOptions" v-bind:value="option">
+                    {{option}}
+                  </option>
                 </select>
+                <span>Selected: {{selectedBrand}}</span>
               </div>
-              <div class="input-field col s4">
+              <div id="sort-selector" class="input-field col s4">
                 <select class="browser-default">
-                  <option value="volvo">Volvo</option>
-                  <option value="saab">Saab</option>
-                  <option value="opel">Opel</option>
-                  <option value="audi">Audi</option>
+                  <option value="price">Price</option>
+                  <option value="name">Name</option>
                 </select>
               </div>
             
             </form>
 
-          </div>
-      
+          </div>      
     </div>
       
     <div class="userMainContent row">
-      <div class="col s4">
-          
-                <div class="circle">
-                  <img alt="" src="img/circle.jpeg" width=150 height=150>
-                  <p class="userItemName">BMO</p>
-                  <p class="topTextCircle">BMO</p>
-                  <p class=bottomTextCirlce>$12 items</p>
-                </div>
-      </div>  
-
-      <div class="col s4">
-          <div class=circle>
-            <img alt="" src="img/circle.jpeg" width=150 height=150>
-            <p class="userItemName">BMO</p>
-            <p class="topTextCircle">Jake the Dog</p>
-            <p class=bottomTextCirlce>$10</p>
-          </div>
-      </div> 
-
-      <div class="col s4">
-        <div class=circle>
-          <img alt="" src="img/circle.jpeg" width=150 height=150>
-          <p class="userItemName">BMO</p>
-          <p class="topTextCircle">Anything</p>
-          <p class=bottomTextCirlce>$5</p>
-        </div>
-
-      </div>    
+      <CirclePop v-for="item in items" v-bind:item="item" :key="item.name">
+      </CirclePop>
     </div>
 
     </div>
@@ -93,7 +64,62 @@
 </template>
 
 <script>
-export default {
-  name: 'ProfilePage'
+  import CirclePop from '@/components/CirclePop'
+  export default {
+    components: {
+      CirclePop
+    },
+    name: 'ProfilePage',
+    data: function () {
+      return {
+        username: this.$route.params.id,
+        selectedBrand: 'All Brands'
+      }
+    },
+    computed: {
+      items: function () {
+        console.log('selectedBrand = ' + this.selectedBrand)
+        var imgSrc = ''
+        if (this.selectedBrand === 'TMNT') {
+          imgSrc = 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Penguins_walking_-Moltke_Harbour,_South_Georgia,_British_overseas_territory,_UK-8.jpg/220px-Penguins_walking_-Moltke_Harbour,_South_Georgia,_British_overseas_territory,_UK-8.jpg'
+        } else {
+          imgSrc = 'http://globalgamejam.org/sites/default/files/styles/game_sidebar__normal/public/game/featured_image/promo_5.png?itok=9dymM8JD'
+        }
+        return [
+          {
+            name: 'Harry Potter',
+            price: '$12',
+            brand: 'Wizarding World',
+            img: imgSrc
+          },
+          {
+            name: 'Voldemort',
+            price: '$15',
+            brand: 'Wizarding World',
+            img: imgSrc
+          },
+          {
+            name: 'Severus Snape',
+            price: '$9',
+            brand: 'Wizarding World',
+            img: 'http://globalgamejam.org/sites/default/files/styles/game_sidebar__normal/public/game/featured_image/promo_5.png?itok=9dymM8JD'
+          }
+        ]
+      },
+      brandOptions: function () {
+        return ['All Brands', 'Adventure Time', 'TMNT']
+      },
+      brandChange: function () {
+        console.log('brand changed to ' + this.selectedBrand)
+        if (this.selectedBrand === 'TMNT') {
+          this.items.push({
+            name: 'John Doe',
+            price: '$15',
+            brand: 'Hell',
+            img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Penguins_walking_-Moltke_Harbour,_South_Georgia,_British_overseas_territory,_UK-8.jpg/220px-Penguins_walking_-Moltke_Harbour,_South_Georgia,_British_overseas_territory,_UK-8.jpg'
+          })
+        }
+      }
+    }
 }
 </script>
