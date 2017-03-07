@@ -1,6 +1,5 @@
 <template>
   <div class="content container">
-    <p>fuck me</p>
     <div class="row">
     
       <ItemView  
@@ -19,6 +18,11 @@
           <tr>
             <td>Edition Size</td>
             <td>{{item.itemQuantity}}</td>
+          </tr>
+          <tr>
+            <td>Quantity You Own</td>
+            <td>{{item.ownerQuantity}}</td>
+            <td><button class="btn">Update</button></td>
           </tr>
         </table>
       </div>
@@ -48,7 +52,8 @@
           itemName: 'No',
           itemPictureSource: 'http://globalgamejam.org/sites/default/files/styles/game_sidebar__normal/public/game/featured_image/promo_5.png?itok=9dymM8JD',
           itemPrice: '$400',
-          itemQuantity: '9000'
+          itemQuantity: '9000',
+          ownerQuantity: '1'
         }
       }
     }

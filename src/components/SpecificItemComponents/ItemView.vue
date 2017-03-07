@@ -1,6 +1,5 @@
  <template>
   <div class="col s6">
-    <h1>FUCKING CHINKS</h1>
     <h5>{{itemBrand}}</h5>
     <p>{{itemName}}</p>
     <img alt="" :src="itemPictureSource" class="responsive-img">
