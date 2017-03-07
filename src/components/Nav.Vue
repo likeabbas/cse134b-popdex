@@ -18,11 +18,11 @@
   </div>
   <SignUp v-if="showSignUpModal" @close="showSignUpModal = false"></SignUp>
 </div>
-
 </template>
 
 <script>
 import SignUp from './SignUp'
+import store from '../storage'
 
 export default {
   name: 'nav',
@@ -30,8 +30,15 @@ export default {
   data () {
     return {
       showSignUpModal: false,
-      showLogInModal: false
+      showLogInModal: false,
+      sharedState: store
+    }
+  },
+  watch: {
+    showSignUpModal: function (val) {
+      console.log(this.sharedState.state.auth)
     }
   }
 }
+
 </script>

@@ -6,27 +6,14 @@ import router from './router'
 
 Vue.config.productionTip = false
 
-var store = {
-  debug: true,
-  state: {
-    message: 'Hello!'
-  },
-  setMessageAction (newValue) {
-    this.debug && console.log('setMessageAction triggered with', newValue)
-    this.state.message = newValue
-  },
-  clearMessageAction () {
-    this.debug && console.log('clearMessageAction triggered')
-    this.state.message = ''
-  }
-}
+import store from './storage'
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
   router,
   data: {
     privateState: {},
-    sharedState: store.state
+    sharedState: store
   },
   template: '<App/>',
   components: { App }
