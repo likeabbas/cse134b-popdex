@@ -9,7 +9,7 @@
           <input type=text placeholder=Password name=password><br>
           <input type=text placeholder="Retype Password" name=retypedPassword><br>
         </form>
-        <a class="waves-effect waves-light btn" @click="$emit('close')">Sign Up</a>
+        <button class="waves-effect waves-light btn" v-on:click="signingUp(); $emit('close')">Sign Up</button>
       </div>
     </div>
   </div>
@@ -18,7 +18,15 @@
 
 
 <script>
+  function signingUp (event) {
+    console.log('gay')
+    // Routing to the profile page
+  }
+
   export default {
-    name: 'SignUp'
+    name: 'SignUp',
+    methods: {
+      signingUp: signingUp
+    }
   }
 </script>
