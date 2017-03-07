@@ -10,7 +10,7 @@
           </ul>
           <ul v-else class="right hide-on-med-and-down">
             <li>Hello {{this.sharedState.state.auth.user.email}}</li>
-            <li><a v-on:click="signOut($event)">Sign Out</a></li>
+            <li><router-link to="/"><span v-on:click="signOut($event)">Sign Out</span></router-link></li>
           </ul>
     </div>
   </nav>
@@ -29,6 +29,7 @@
 import SignUp from './SignUp'
 import store from '../storage'
 import Login from './Login'
+import router from '../router/index'
 export default {
   name: 'nav',
   components: { SignUp, Login },
@@ -37,7 +38,8 @@ export default {
       showSignUpModal: false,
       showLoginModal: false,
       showSignOutModal: false,
-      sharedState: store
+      sharedState: store,
+      router: router
     }
   },
   computed: {
