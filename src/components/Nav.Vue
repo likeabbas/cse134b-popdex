@@ -10,7 +10,7 @@
           </ul>
           <ul v-else class="right hide-on-med-and-down">
             <li>Hello {{this.sharedState.state.auth.user.email}}</li>
-            <li><a v-on:click="showSignOutModal = true">Sign Out</a></li>
+            <li><router-link to="/"><span v-on:click="signOut($event)">Sign Out</span></router-link></li>
           </ul>
     </div>
   </nav>
@@ -72,6 +72,15 @@ export default {
       }
       console.log(this.sharedState.state.auth)
       router.push({name: 'ProfilePage', params: {id: this.sharedState.state.userlink}})
+    },
+    signOut: function (event) {
+      var vm = this
+      vm.sharedState.firebase.auth().signOut()
+        .then(function () {
+          vm.sharedState.state.auth.user = null
+        }, function (e) {
+          alert(e.message)
+        })
     }
   }
 }
