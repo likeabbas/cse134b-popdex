@@ -26,6 +26,7 @@
         console.log('successfully logged in google')
         vm.sharedState.state.auth.credential = result.credential
         vm.sharedState.state.auth.user = result.user
+        vm.$emit('close')
       }).catch(function (error) {
         alert(error.message)
         /* var errorCode = error.code;

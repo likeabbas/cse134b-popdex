@@ -4,9 +4,13 @@
     <div id="header" class="nav-wrapper">
     
           <a href="#" class="brand-logo">PopDex!&nbsp;&nbsp;<small>The Definitive Guide!</small></a>
-          <ul v-if="isAuthenticated" class="right hide-on-med-and-down">
+          <ul v-if="!isAuthenticated" class="right hide-on-med-and-down">
             <li><a v-on:click="showLoginModal = true" >Login</a></li>
             <li><a v-on:click="showSignUpModal = true">Signup</a></li>
+          </ul>
+          <ul v-else class="right hide-on-med-and-down">
+            <li>Hello {{this.sharedState.state.auth.user.email}}</li>
+            <li><a v-on:click="showSignOutModal = true">Sign Out</a></li>
           </ul>
     </div>
   </nav>
@@ -32,6 +36,7 @@ export default {
     return {
       showSignUpModal: false,
       showLoginModal: false,
+      showSignOutModal: false,
       sharedState: store
     }
   },
