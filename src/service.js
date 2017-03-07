@@ -7,16 +7,16 @@ export default class LoginService {
     return false
   }
   validateEmail (email) {
+    console.log('validating email ' + email)
     if (email.length > 0) {
       return true
     }
     return false
   }
-    
   passwordSecurity (password) {
-  	if (password.length > 0) {
+    if (password.length > 0) {
       return true
     }
     return false
-  }  
+  }
 }

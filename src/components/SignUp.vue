@@ -5,7 +5,7 @@
         <h4>Sign up, it's easy!</h4>
         <form>
           <input v-model:email="tmpAuth.email" type="email" placeholder="Email Address" name=email><br>
-          <input v-model:text="tmpAuth.password" placeholder=Password name=password><br>
+          <input v-model:text="tmpAuth.password" placeholder="Password" name=password><br>
           <input v-model:text="tmpAuth.confirmedPass" placeholder="Retype Password" name=retypedPassword><br>
         </form>
         <button class="waves-effect waves-light btn" v-on:click="signingUp()">Sign Up</button>

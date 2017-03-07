@@ -16,6 +16,7 @@ module.exports = {
     message: 'Hello!',
     auth: {
       user: null,
+      credential: null,
       email: '',
       password: '',
       message: '',
