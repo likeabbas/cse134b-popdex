@@ -1,37 +1,61 @@
 <template>
   <div class="content container">
-  <div class="row">
-    <div class="col s6">
-        <h5>Bmo #52</h5>
-        <p>Pop Vinyl Pop Television Adventure Time</p>
-    <img alt="" src="img/wolf.jpg" class="responsive-img">
-    <a class="waves-effect waves-light btn">Add to Collection</a>
-    <a class="waves-effect waves-light btn">Add to Wish List</a>
-    </div>
-    <div class="col s6">
-    <br><br><br><br>
-       <table class="striped">
-        <tr>
-          <td>Market Price</td>
-          <td>$$$</td>
-        </tr>
-        <tr>
-          <td>Edition Size</td>
-          <td>Unlimited</td>
-        </tr>
-      </table>
+    <div class="row">
+    
+      <ItemView  
+        v-bind:itemBrand="item.itemBrand" 
+        v-bind:itemName="item.itemName" 
+        v-bind:itemPictureSource="item.itemPictureSource">
+      </ItemView>
+
+      <div class="col s6">
+        <br><br><br><br>
+        <table class="striped">
+          <tr>
+            <td>Market Price</td>
+            <td>{{item.itemPrice}}</td>
+          </tr>
+          <tr>
+            <td>Edition Size</td>
+            <td>{{item.itemQuantity}}</td>
+          </tr>
+          <tr>
+            <td>Quantity You Own</td>
+            <td>{{item.ownerQuantity}}</td>
+            <td><button class="btn">Update</button></td>
+          </tr>
+        </table>
+      </div>
+
+      <div class="col s12">
+        <h4>Related item</h4>
+        <img src="http://placehold.it/900x200" class="responsive-img">
+      </div> 
+
     </div>
 
-<div class="col s12">
-    <h4>Related Items</h4>
-    <img src="http://placehold.it/900x200" class="responsive-img">
-  </div>  
-  </div>
   </div>
 </template>
 
 <script>
+  import ItemView from './SpecificItemComponents/ItemView'
+
   export default {
-    name: 'SpecificItem'
+    name: 'SpecificItem',
+    components: {
+      ItemView
+    },
+    data () {
+      return {
+        item: {
+          itemBrand: 'Abbas',
+          itemName: 'No',
+          itemPictureSource: 'http://globalgamejam.org/sites/default/files/styles/game_sidebar__normal/public/game/featured_image/promo_5.png?itok=9dymM8JD',
+          itemPrice: '$400',
+          itemQuantity: '9000',
+          ownerQuantity: '1'
+        }
+      }
+    }
   }
 </script>
