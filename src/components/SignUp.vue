@@ -5,7 +5,6 @@
         <h4>Sign up, it's easy!</h4>
         <form>
           <input v-model:email="tmpAuth.email" type="email" placeholder="Email Address" name=email><br>
-          <input v-model:text="tmpAuth.user" placeholder=Username name=username><br>
           <input v-model:text="tmpAuth.password" placeholder=Password name=password><br>
           <input v-model:text="tmpAuth.confirmedPass" placeholder="Retype Password" name=retypedPassword><br>
         </form>
@@ -20,40 +19,20 @@
 
 <script>
   import store from '../storage'
-  function validateEmail (email) {
-    if (email.length > 0) {
-      return true
-    }
-    return false
-  }
+  import LoginService from '../service'
 
-  function validatePassword (pass, confirmed) {
-    if (pass.length > 0 && pass === confirmed) {
-      return true
-    }
-    return false
-  }
-  function validateUsername (uname) {
-    if (uname.length > 0) {
-      return true
-    }
-    return false
-  }
   function signingUp (event) {
     // Routing to the profile page
     console.log(this.tmpAuth)
+    var loginService = new LoginService()
     var vm = this
     var auth = vm.tmpAuth
-    if (!validateEmail(vm.tmpAuth.email)) {
+    if (!loginService.validateEmail(vm.tmpAuth.email)) {
       alert('Email address not valid!')
       return
     }
-    if (!validatePassword(vm.tmpAuth.password, vm.tmpAuth.confirmedPass)) {
+    if (!loginService.validatePassword(vm.tmpAuth.password, vm.tmpAuth.confirmedPass)) {
       alert('Passwords are invalid or do not match.')
-      return
-    }
-    if (!validateUsername(vm.tmpAuth.user)) {
-      alert('Invalid username')
       return
     }
     vm.sharedState.firebase.auth().createUserWithEmailAndPassword(auth.email, auth.password)
@@ -83,7 +62,6 @@
           password: '',
           confirmedPass: '',
           message: '',
-          userName: '',
           hasErrors: false
         }
       }
