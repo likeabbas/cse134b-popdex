@@ -5,8 +5,8 @@
     
           <a href="#" class="brand-logo">PopDex!&nbsp;&nbsp;<small>The Definitive Guide!</small></a>
           <ul class="right hide-on-med-and-down">
-            <li><a href="wireframes/loginForm.html">Login</a></li>
-            <li><a href="wireframes/signupForm.html">Signup</a></li>
+            <li><a >Login</a></li>
+            <li><a @click="showSignUpModal = true">Signup</a></li>
           </ul>
     </div>
   </nav>
@@ -16,16 +16,21 @@
     <a href="">My Stuff</a>
     <a href="">News</a>
   </div>
+  <SignUp v-if="showSignUpModal" @close="showSignUpModal = false"></SignUp>
 </div>
 
 </template>
 
 <script>
+import SignUp from './SignUp'
+
 export default {
   name: 'nav',
+  components: { SignUp },
   data () {
     return {
-      msg: 'Welcome to Your Vue.js App'
+      showSignUpModal: false,
+      showLogInModal: false
     }
   }
 }
