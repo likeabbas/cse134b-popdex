@@ -5,8 +5,8 @@
     
           <a href="#" class="brand-logo">PopDex!&nbsp;&nbsp;<small>The Definitive Guide!</small></a>
           <ul v-if="isAuthenticated" class="right hide-on-med-and-down">
-            <li><a >Login</a></li>
-            <li><a @click="showSignUpModal = true">Signup</a></li>
+            <li><a v-on:click="showLoginModal = true" >Login</a></li>
+            <li><a v-on:click="showSignUpModal = true">Signup</a></li>
           </ul>
     </div>
   </nav>
