@@ -4,7 +4,7 @@
     <div id="header" class="nav-wrapper">
     
           <a href="#" class="brand-logo">PopDex!&nbsp;&nbsp;<small>The Definitive Guide!</small></a>
-          <ul class="right hide-on-med-and-down">
+          <ul v-if="isAuthenticated" class="right hide-on-med-and-down">
             <li><a >Login</a></li>
             <li><a @click="showSignUpModal = true">Signup</a></li>
           </ul>
@@ -32,6 +32,16 @@ export default {
       showSignUpModal: false,
       showLogInModal: false,
       sharedState: store
+    }
+  },
+  computed: {
+    isAuthenticated: function () {
+      this.sharedState.firebase.auth().onAuthStateChanged(function (user) {
+        if (user) {
+          this.sharedState.state.auth.user = user
+        } else this.sharedState.state.auth.user = null
+      }.bind(this))
+      return (this.sharedState.state.auth.user !== null)
     }
   },
   watch: {

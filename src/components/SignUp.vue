@@ -9,7 +9,7 @@
           <input v-model:text="tmpAuth.confirmedPass" placeholder="Retype Password" name=retypedPassword><br>
         </form>
         <button class="waves-effect waves-light btn" v-on:click="signingUp()">Sign Up</button>
-        <button class="waves-effect waves-light btn" v-on:click="$emit('close')">Close</button>
+        <button id="signupClose" ref="signupClose" class="waves-effect waves-light btn" v-on:click="$emit('close')">Close</button>
       </div>
     </div>
   </div>
@@ -46,6 +46,7 @@
         vm.sharedState.state.auth.hasErrors = true
         alert(error.message)
       })
+    vm.$emit('close')
   }
 
   export default {

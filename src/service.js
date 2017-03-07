@@ -12,11 +12,11 @@ export default class LoginService {
     }
     return false
   }
-    
+
   passwordSecurity (password) {
-  	if (password.length > 0) {
+    if (password.length > 0) {
       return true
     }
     return false
-  }  
+  }
 }
