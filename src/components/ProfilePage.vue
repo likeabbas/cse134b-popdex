@@ -67,6 +67,7 @@
   import CirclePop from '@/components/CirclePop'
   import store from '../storage'
   import UserService from '../userservice'
+
   export default {
     components: { CirclePop },
     name: 'ProfilePage',
@@ -90,17 +91,26 @@
         console.log('oldValue ' + oldvalue)
         console.log('newValue ' + newvalue)
         var userService = new UserService()
+        userService.fillData(this.sharedState.firebase)
         var vm = this
         userService.getPops(this.sharedState.firebase).then(function (data) {
           console.log('got the pops\n' + JSON.stringify(data.val()))
           var pops = data.val()
           vm.items = Object.keys(pops).map(function (key) {
-            var obj = pops[key]; obj.uid = key; return obj
+            var obj = pops[key]
+            obj.uid = key
+            return obj
           })
           console.log('items\n' + vm.items)
         })
       }
+    },
+    methods: {
+      deleteItem: function (itemUid) {
+        console.log(itemUid)
+      }
     }
+
       /* methods: {
         brandChange: function () {
           console.log('brand changed to ' + this.selectedBrand)
