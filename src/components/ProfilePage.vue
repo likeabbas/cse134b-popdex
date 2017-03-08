@@ -94,7 +94,9 @@
         userService.getPops(this.sharedState.firebase).then(function (data) {
           console.log('got the pops\n' + JSON.stringify(data.val()))
           var pops = data.val()
-          vm.items = Object.keys(pops).map(function (key) { return pops[key] })
+          vm.items = Object.keys(pops).map(function (key) {
+            var obj = pops[key]; obj.uid = key; return obj
+          })
           console.log('items\n' + vm.items)
         })
       }
