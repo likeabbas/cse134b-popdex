@@ -54,10 +54,11 @@
     </div>
       
     <div v-if="dataLoaded" class="userMainContent row">
-      <CirclePop v-for="(item, key) in items" v-bind:item="item" 
-                 v-bind:uid="key" 
+      <CirclePop v-for="(item, index) in items" v-bind:item="item" 
+                 v-bind:uid="item.uid" 
                  v-bind:deleteItemParent="deleteItem"
-                 :key="key">
+                 v-on:remove="deleteItem(index, item.uid)"
+                 :key="item.uid">
       </CirclePop>
     </div>
 
@@ -94,19 +95,28 @@
         console.log('oldValue ' + oldvalue)
         console.log('newValue ' + newvalue)
         var userService = new UserService()
-        userService.fillData(this.sharedState.firebase)
+        // userService.fillData(this.sharedState.firebase)
         var vm = this
         userService.getPops(this.sharedState.firebase).then(function (data) {
           console.log('got the pops\n' + JSON.stringify(data.val()))
           var pops = data.val()
-          vm.items = pops
+          vm.items = Object.keys(pops).map(function (key) {
+            var pop = pops[key]; pop.uid = key; return pop
+          })
           console.log('items\n' + JSON.stringify(vm.items))
         })
       }
     },
     methods: {
-      deleteItem: function (itemUid) {
-        console.log(this.items[itemUid])
+      deleteItem: function (index, itemUid) {
+        console.log('in this function')
+        // var userService = new UserService()
+        // userService.deleteItemDB(this.sharedState.firebase, itemUid)
+        var firebase = this.sharedState.firebase
+        var user = firebase.auth().currentUser
+        console.log('/users/' + user.uid + '/pops/' + itemUid)
+        firebase.database().ref('/users/' + user.uid + '/pops/' + itemUid).set(null)
+        this.items.splice(index, 1)
       }
     }
 

@@ -23,4 +23,9 @@ export default class UserService {
       ref.set(snapshot.val())
     })
   }
+
+  deleteItemDB (firebase, uid) {
+    var user = firebase.auth().currentUser
+    firebase.database().ref('/users/' + user.uid + '/pops/' + uid).set(null)
+  }
 }
