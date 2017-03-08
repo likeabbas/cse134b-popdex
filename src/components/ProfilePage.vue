@@ -54,7 +54,8 @@
     </div>
       
     <div v-if="dataLoaded" class="userMainContent row">
-      <CirclePop v-for="item in items" v-bind:item="item" :key="item.name">
+      <CirclePop v-for="(item, key) in items" v-bind:item="item" 
+                 v-bind:uid="key" :key="key">
       </CirclePop>
     </div>
 
@@ -94,10 +95,8 @@
         userService.getPops(this.sharedState.firebase).then(function (data) {
           console.log('got the pops\n' + JSON.stringify(data.val()))
           var pops = data.val()
-          vm.items = Object.keys(pops).map(function (key) {
-            var obj = pops[key]; obj.uid = key; return obj
-          })
-          console.log('items\n' + vm.items)
+          vm.items = pops
+          console.log('items\n' + JSON.stringify(vm.items))
         })
       }
     }

@@ -11,7 +11,7 @@
 
 <script>
 export default {
-  props: ['item'],
+  props: ['item', 'uid'],
   data: function () {
     return {
       defaultImg: this.item.picture_src
