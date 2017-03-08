@@ -42,18 +42,22 @@
       alert('Username invalid')
       return
     }
-    vm.sharedState.firebase.auth().createUserWithEmailAndPassword(auth.email, auth.password)
-      .then(function (data) {
+
+    vm.sharedState.firebase.auth()
+      .createUserWithEmailAndPassword(auth.email, auth.password).then(function (data) {
         console.log('Successfully created user with email and password')
-        // update username
+        vm.sharedState.state.auth.user = vm.sharedState.firebase.auth().currentUser
+
+        /* userService.writeNewUserAccount(vm.sharedState.state.auth.user,
+                                        vm.sharedState.firebase) */
+        console.log(JSON.stringify(data))
+
         vm.sharedState.state.auth.user.updateProfile({
           displayName: vm.tmpAuth.uname
         }).then(function () {
           console.log('successfully stored username')
-          console.log('current user :\n' + JSON.stringify(vm.sharedState
-             .firebase.auth().currentUser))
-          userService.writeNewUserAccount(vm.sharedState.firebase.auth().currentUser,
-                                          vm.sharedState.firebase)
+          userService.writeNewUserAccount(vm.sharedState.state.auth.user,
+                                        vm.sharedState.firebase)
         }).catch(function (error) {
           alert(error.message)
         })

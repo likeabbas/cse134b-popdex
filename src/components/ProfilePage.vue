@@ -99,6 +99,8 @@
         userService.getPops(this.sharedState.firebase).then(function (data) {
           console.log('got the pops\n' + JSON.stringify(data.val()))
           var pops = data.val()
+
+          // TODO add something if there are no pops
           vm.items = Object.keys(pops).map(function (key) {
             var pop = pops[key]; pop.uid = key; return pop
           })
