@@ -5,14 +5,14 @@
             <p class="userItemName">{{item.name}}</p>
             <p class="topTextCircle">{{item.brand}}</p>
             <p class=bottomTextCirlce>{{item.price}}</p>
-            <a v-on:click="deleteItem(item.uid)" class="btn waves-effect waves-light btn">Delete Item</a>
+            <a v-on:click="deleteItem(uid)" class="btn waves-effect waves-light btn">Delete Item</a>
           </div>
 </div>
 </template>
 
 <script>
 export default {
-  props: ['item', 'uid'],
+  props: ['item', 'uid', 'deleteItemParent'],
   data: function () {
     return {
       defaultImg: this.item.picture_src
@@ -20,7 +20,7 @@ export default {
   },
   methods: {
     deleteItem: function (itemUid) {
-      this.$parent.$options.methods.deleteItem(itemUid)
+      this.deleteItemParent(itemUid)
     }
   }
 }

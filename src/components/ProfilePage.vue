@@ -55,7 +55,9 @@
       
     <div v-if="dataLoaded" class="userMainContent row">
       <CirclePop v-for="(item, key) in items" v-bind:item="item" 
-                 v-bind:uid="key" :key="key">
+                 v-bind:uid="key" 
+                 v-bind:deleteItemParent="deleteItem"
+                 :key="key">
       </CirclePop>
     </div>
 
@@ -78,7 +80,7 @@
         selectedBrand: '',
         username: store.state.auth.user.displayName,
         dataLoaded: true,
-        items: []
+        items: {}
       }
     },
     computed: {
@@ -104,7 +106,7 @@
     },
     methods: {
       deleteItem: function (itemUid) {
-        console.log(itemUid)
+        console.log(this.items[itemUid])
       }
     }
 
