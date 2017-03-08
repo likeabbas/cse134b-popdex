@@ -39,7 +39,6 @@
                     {{option}}
                   </option>
                 </select>
-                <span>Selected: {{selectedBrand}}</span>
               </div>
               <div id="sort-selector" class="input-field col s4">
                 <select class="browser-default">
@@ -68,7 +67,7 @@
 </template>
 
 <script>
-  import CirclePop from '@/components/CirclePop'
+  import CirclePop from '@/components/ProfileComponents/CirclePop'
   import store from '../storage'
   import UserService from '../userservice'
 
@@ -80,30 +79,37 @@
         sharedState: store,
         selectedBrand: '',
         username: store.state.auth.user.displayName,
-        dataLoaded: true,
+        dataLoaded: false,
         items: {}
       }
     },
     computed: {
       brandOptions: function () {
+        var userService = new UserService()
+        userService.fillData(this.sharedState.firebase)
+        this.selectedBrand = 'All Brands'
         return ['All Brands', 'Adventure Time', 'TMNT']
       }
     },
     watch: {
-      selectedBrand: function (oldvalue, newvalue) {
+      selectedBrand: function (value) {
         console.log('in watch function')
-        console.log('oldValue ' + oldvalue)
-        console.log('newValue ' + newvalue)
+        console.log('value ' + value)
         var userService = new UserService()
         var vm = this
-        userService.getPops(this.sharedState.firebase).then(function (data) {
+        console.log
+        userService.getPops(this.sharedState.firebase, value).then(function (data) {
           console.log('got the pops\n' + JSON.stringify(data.val()))
           var pops = data.val()
-
-          // TODO add something if there are no pops
-          vm.items = Object.keys(pops).map(function (key) {
-            var pop = pops[key]; pop.uid = key; return pop
-          })
+          if (pops !== null) {
+            // TODO add something if there are no pops
+            vm.items = Object.keys(pops).map(function (key) {
+              var pop = pops[key]; pop.uid = key; return pop
+            })
+            vm.dataLoaded = true
+          } else {
+            vm.dataLoaded = false
+          }
           console.log('items\n' + JSON.stringify(vm.items))
         })
       }
@@ -116,7 +122,7 @@
         var firebase = this.sharedState.firebase
         var user = firebase.auth().currentUser
         console.log('/users/' + user.uid + '/pops/' + itemUid)
-        firebase.database().ref('/users/' + user.uid + '/pops/' + itemUid).set(null)
+        firebase.database().ref('/users/' + user.uid + '/pops/' + this.selectedBrand + '/' + itemUid).set(null)
         this.items.splice(index, 1)
       }
     }

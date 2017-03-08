@@ -9,7 +9,7 @@
             <li><a v-on:click="showSignUpModal = true">Signup</a></li>
           </ul>
           <ul v-else class="right hide-on-med-and-down">
-            <li>Hello {{this.sharedState.state.auth.user.email}}</li>
+            <li>Hello {{this.sharedState.state.auth.user.displayName}}</li>
             <li><router-link to="/"><span v-on:click="signOut($event)">Sign Out</span></router-link></li>
           </ul>
     </div>

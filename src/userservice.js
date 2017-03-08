@@ -8,19 +8,26 @@ export default class UserService {
     })
   }
 
-  getPops (firebase) {
+  getPops (firebase, brand) {
     var user = firebase.auth().currentUser
-    return firebase.database().ref('/users/' + user.uid + '/pops')
+    return firebase.database().ref('/users/' + user.uid + '/pops/' + brand)
       .once('value')
   }
 
   fillData (firebase) {
     var user = firebase.auth().currentUser
     var popRef = firebase.database().ref('/pops/Adventure_Time/')
-    var ref = firebase.database().ref('/users/' + user.uid + '/pops')
+    var ref = firebase.database().ref('/users/' + user.uid + '/pops/Adventure Time')
     popRef.once('value').then(function (snapshot) {
       console.log('got test data')
       ref.set(snapshot.val())
+    })
+
+    var popRef2 = firebase.database().ref('/pops/Teenage_Mutant Ninja Turtles')
+    var ref2 = firebase.database().ref('/users/' + user.uid + '/pops/TMNT')
+    popRef2.once('value').then(function (snapshot) {
+      console.log('got test data')
+      ref2.set(snapshot.val())
     })
   }
 

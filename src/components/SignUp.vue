@@ -47,7 +47,7 @@
       .createUserWithEmailAndPassword(auth.email, auth.password).then(function (data) {
         console.log('Successfully created user with email and password')
         vm.sharedState.state.auth.user = vm.sharedState.firebase.auth().currentUser
-
+        vm.sharedState.state.auth.user.displayName = vm.tmpAuth.uname
         /* userService.writeNewUserAccount(vm.sharedState.state.auth.user,
                                         vm.sharedState.firebase) */
         console.log(JSON.stringify(data))
@@ -58,6 +58,7 @@
           console.log('successfully stored username')
           userService.writeNewUserAccount(vm.sharedState.state.auth.user,
                                         vm.sharedState.firebase)
+          vm.sharedState.state.auth.user
         }).catch(function (error) {
           alert(error.message)
         })
