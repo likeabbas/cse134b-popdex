@@ -95,7 +95,6 @@
         console.log('oldValue ' + oldvalue)
         console.log('newValue ' + newvalue)
         var userService = new UserService()
-        // userService.fillData(this.sharedState.firebase)
         var vm = this
         userService.getPops(this.sharedState.firebase).then(function (data) {
           console.log('got the pops\n' + JSON.stringify(data.val()))
