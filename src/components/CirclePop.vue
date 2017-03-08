@@ -14,7 +14,7 @@ export default {
   props: ['item'],
   data: function () {
     return {
-      defaultImg: this.item.img
+      defaultImg: this.item.picture_src
     }
   }
 }

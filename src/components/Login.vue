@@ -27,6 +27,7 @@
         vm.sharedState.state.auth.credential = result.credential
         vm.sharedState.state.auth.user = result.user
         vm.$emit('close')
+        console.log('result google: \n' + JSON.stringify(result))
       }).catch(function (error) {
         alert(error.message)
         /* var errorCode = error.code;

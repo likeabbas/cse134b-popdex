@@ -1,4 +1,3 @@
-
 export default class LoginService {
   validatePassword (pass, confirmed) {
     if (pass.length > 0 && pass === confirmed) {
@@ -15,6 +14,12 @@ export default class LoginService {
   }
   passwordSecurity (password) {
     if (password.length > 0) {
+      return true
+    }
+    return false
+  }
+  validateUsername (uname) {
+    if (uname.length > 0) {
       return true
     }
     return false

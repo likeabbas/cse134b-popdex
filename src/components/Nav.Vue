@@ -45,18 +45,19 @@ export default {
   },
   computed: {
     isAuthenticated: function () {
-      this.sharedState.firebase.auth().onAuthStateChanged(function (user) {
+      var vm = this
+      vm.sharedState.firebase.auth().onAuthStateChanged(function (user) {
         console.log('onAuthStateChanged')
         if (user) {
-          this.sharedState.state.auth.user = user
-          this.sharedState.state.userlink =
-            this.sharedState.state.auth.user.uid
+          vm.sharedState.state.auth.user = user
+          vm.sharedState.state.userlink =
+            vm.sharedState.state.auth.user.uid
         } else {
-          this.sharedState.state.auth.user = null
-          this.shared.state.userlink = null
+          vm.sharedState.state.auth.user = null
+          vm.sharedState.state.userlink = null
         }
-      }.bind(this))
-      return (this.sharedState.state.auth.user !== null)
+      })
+      return (vm.sharedState.state.auth.user !== null)
     }
   },
   watch: {

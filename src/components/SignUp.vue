@@ -4,6 +4,7 @@
       <div class="container modal-container">
         <h4>Sign up, it's easy!</h4>
         <form>
+          <input v-model:email="tmpAuth.uname" type="text" placeholder="Username" name=uname><br>
           <input v-model:email="tmpAuth.email" type="email" placeholder="Email Address" name=email><br>
           <input v-model:text="tmpAuth.password" placeholder="Password" name=password><br>
           <input v-model:text="tmpAuth.confirmedPass" placeholder="Retype Password" name=retypedPassword><br>
@@ -20,11 +21,13 @@
 <script>
   import store from '../storage'
   import LoginService from '../service'
+  import UserService from '../userservice'
 
   function signingUp (event) {
     // Routing to the profile page
     console.log(this.tmpAuth)
     var loginService = new LoginService()
+    var userService = new UserService()
     var vm = this
     var auth = vm.tmpAuth
     if (!loginService.validateEmail(vm.tmpAuth.email)) {
@@ -35,10 +38,26 @@
       alert('Passwords are invalid or do not match.')
       return
     }
+    if (!loginService.validateUsername(vm.tmpAuth.uname)) {
+      alert('Username invalid')
+      return
+    }
     vm.sharedState.firebase.auth().createUserWithEmailAndPassword(auth.email, auth.password)
       .then(function (data) {
         console.log('Successfully created user with email and password')
-        vm.sharedState.state.auth.user = vm.sharedState.firebase.auth().currentUser
+        // update username
+        vm.sharedState.state.auth.user.updateProfile({
+          displayName: vm.tmpAuth.uname
+        }).then(function () {
+          console.log('successfully stored username')
+          console.log('current user :\n' + JSON.stringify(vm.sharedState
+             .firebase.auth().currentUser))
+          userService.writeNewUserAccount(vm.sharedState.firebase.auth().currentUser,
+                                          vm.sharedState.firebase)
+        }).catch(function (error) {
+          alert(error.message)
+        })
+
         console.log('current user: ' + vm.sharedState.state.auth.user)
         console.log('returned data :\n' + JSON.stringify(data))
       }).catch(function (error) {
@@ -59,7 +78,7 @@
       return {
         sharedState: store,
         tmpAuth: {
-          user: null,
+          uname: '',
           email: '',
           password: '',
           confirmedPass: '',

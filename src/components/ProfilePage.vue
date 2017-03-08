@@ -34,7 +34,7 @@
                 <input type=text name=filterSearch placeholder="Filter Search">
               </div>
               <div id="brand-selector" class="input-field col s4">
-                <select v-model="selectedBrand" v-on:change="brandChange" class="browser-default">
+                <select v-model="selectedBrand" class="browser-default">
                   <option v-for="option in brandOptions" v-bind:value="option">
                     {{option}}
                   </option>
@@ -53,7 +53,7 @@
           </div>      
     </div>
       
-    <div class="userMainContent row">
+    <div v-if="dataLoaded" class="userMainContent row">
       <CirclePop v-for="item in items" v-bind:item="item" :key="item.name">
       </CirclePop>
     </div>
@@ -65,61 +65,52 @@
 
 <script>
   import CirclePop from '@/components/CirclePop'
+  import store from '../storage'
+  import UserService from '../userservice'
   export default {
-    components: {
-      CirclePop
-    },
+    components: { CirclePop },
     name: 'ProfilePage',
-    data: function () {
+    data () {
       return {
-        username: this.$route.params.id,
-        selectedBrand: 'All Brands'
+        sharedState: store,
+        selectedBrand: '',
+        username: store.state.auth.user.displayName,
+        dataLoaded: true,
+        items: []
       }
     },
     computed: {
-      items: function () {
-        console.log('selectedBrand = ' + this.selectedBrand)
-        var imgSrc = ''
-        if (this.selectedBrand === 'TMNT') {
-          imgSrc = 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Penguins_walking_-Moltke_Harbour,_South_Georgia,_British_overseas_territory,_UK-8.jpg/220px-Penguins_walking_-Moltke_Harbour,_South_Georgia,_British_overseas_territory,_UK-8.jpg'
-        } else {
-          imgSrc = 'http://globalgamejam.org/sites/default/files/styles/game_sidebar__normal/public/game/featured_image/promo_5.png?itok=9dymM8JD'
-        }
-        return [
-          {
-            name: 'Harry Potter',
-            price: '$12',
-            brand: 'Wizarding World',
-            img: imgSrc
-          },
-          {
-            name: 'Voldemort',
-            price: '$15',
-            brand: 'Wizarding World',
-            img: imgSrc
-          },
-          {
-            name: 'Severus Snape',
-            price: '$9',
-            brand: 'Wizarding World',
-            img: 'http://globalgamejam.org/sites/default/files/styles/game_sidebar__normal/public/game/featured_image/promo_5.png?itok=9dymM8JD'
-          }
-        ]
-      },
       brandOptions: function () {
         return ['All Brands', 'Adventure Time', 'TMNT']
-      },
-      brandChange: function () {
-        console.log('brand changed to ' + this.selectedBrand)
-        if (this.selectedBrand === 'TMNT') {
-          this.items.push({
-            name: 'John Doe',
-            price: '$15',
-            brand: 'Hell',
-            img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Penguins_walking_-Moltke_Harbour,_South_Georgia,_British_overseas_territory,_UK-8.jpg/220px-Penguins_walking_-Moltke_Harbour,_South_Georgia,_British_overseas_territory,_UK-8.jpg'
-          })
-        }
+      }
+    },
+    watch: {
+      selectedBrand: function (oldvalue, newvalue) {
+        console.log('in watch function')
+        console.log('oldValue ' + oldvalue)
+        console.log('newValue ' + newvalue)
+        var userService = new UserService()
+        var vm = this
+        userService.getPops(this.sharedState.firebase).then(function (data) {
+          console.log('got the pops\n' + JSON.stringify(data.val()))
+          var pops = data.val()
+          vm.items = Object.keys(pops).map(function (key) { return pops[key] })
+          console.log('items\n' + vm.items)
+        })
       }
     }
+      /* methods: {
+        brandChange: function () {
+          console.log('brand changed to ' + this.selectedBrand)
+          if (this.selectedBrand === 'TMNT') {
+            this.items.push({
+              name: 'John Doe',
+              price: '$15',
+              brand: 'Hell',
+              img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Penguins_walking_-Moltke_Harbour,_South_Georgia,_British_overseas_territory,_UK-8.jpg/220px-Penguins_walking_-Moltke_Harbour,_South_Georgia,_British_overseas_territory,_UK-8.jpg'
+            })
+          }
+        }
+      } */
 }
 </script>
