@@ -5,6 +5,7 @@
             <p class="userItemName">{{item.name}}</p>
             <p class="topTextCircle">{{item.brand}}</p>
             <p class=bottomTextCirlce>{{item.price}}</p>
+            <a v-on:click="deleteItem(item.uid)" class="btn waves-effect waves-light btn">Delete Item</a>
           </div>
 </div>
 </template>
@@ -15,6 +16,11 @@ export default {
   data: function () {
     return {
       defaultImg: this.item.picture_src
+    }
+  },
+  methods: {
+    deleteItem: function (itemUid) {
+      this.$parent.$options.methods.deleteItem(itemUid)
     }
   }
 }
