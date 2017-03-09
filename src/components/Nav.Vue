@@ -16,9 +16,11 @@
   </nav>
 
   <div id="navigator">
-    <div href="">The Guide</div>
+    <div>
+    <router-link to="/guide">The Guide</router-link>
+    </div>
     <div v-on:click="goToMyStuff">My Stuff</div>
-    <div href="">News</div>
+    <div>News</div>
   </div>
   <SignUp v-if="showSignUpModal" @close="showSignUpModal = false"></SignUp>
   <Login v-if="showLoginModal" @close="showLoginModal = false"></Login>

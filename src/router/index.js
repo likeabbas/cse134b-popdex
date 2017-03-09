@@ -5,6 +5,8 @@ Vue.use(Router)
 import SpecificItem from '../components/SpecificItem'
 import Lead from '@/components/Lead'
 import ProfilePage from '@/components/ProfilePage'
+import Guide from '@/components/MainGuide'
+import BrandPage from '@/components/BrandPage'
 
 export default new Router({
   routes: [
@@ -22,6 +24,16 @@ export default new Router({
       path: '/ayy',
       name: 'Item',
       component: SpecificItem
+    },
+    {
+      path: '/guide',
+      component: Guide
+    },
+    {
+      path: '/brand/:id',
+      component: BrandPage,
+      name: 'brand'
     }
+
   ]
 })
