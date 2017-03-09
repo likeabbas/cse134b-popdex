@@ -1,5 +1,5 @@
 export default class UserService {
-  writeNewUserAccount (user, firebase) {
+  static writeNewUserAccount (user, firebase) {
     var ref = firebase.database().ref('users/' + user.uid)
     ref.set({
       provider: user.providerData[0].providerId,
@@ -8,22 +8,22 @@ export default class UserService {
     })
   }
 
-  getPops (firebase, brand) {
+  static getPops (firebase, brand) {
     var user = firebase.auth().currentUser
     return firebase.database().ref('/users/' + user.uid + '/pops/' + brand)
       .once('value')
   }
 
-  fillData (firebase) {
+  static fillData (firebase) {
     var user = firebase.auth().currentUser
-    var popRef = firebase.database().ref('/pops/Adventure_Time/')
+    var popRef = firebase.database().ref('/pops/Adventure Time/')
     var ref = firebase.database().ref('/users/' + user.uid + '/pops/Adventure Time')
     popRef.once('value').then(function (snapshot) {
       console.log('got test data')
       ref.set(snapshot.val())
     })
 
-    var popRef2 = firebase.database().ref('/pops/Teenage_Mutant Ninja Turtles')
+    var popRef2 = firebase.database().ref('/pops/Teenage Mutant Ninja Turtles')
     var ref2 = firebase.database().ref('/users/' + user.uid + '/pops/TMNT')
     popRef2.once('value').then(function (snapshot) {
       console.log('got test data')
@@ -31,8 +31,10 @@ export default class UserService {
     })
   }
 
-  deleteItemDB (firebase, uid) {
+  static deleteItemDB (firebase, brand, uid) {
     var user = firebase.auth().currentUser
-    firebase.database().ref('/users/' + user.uid + '/pops/' + uid).set(null)
+    firebase.database()
+      .ref('/users/' + user.uid + '/pops/' + brand + '/' + uid)
+      .set(null)
   }
 }

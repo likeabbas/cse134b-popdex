@@ -26,19 +26,18 @@
   function signingUp (event) {
     // Routing to the profile page
     console.log(this.tmpAuth)
-    var loginService = new LoginService()
     var userService = new UserService()
     var vm = this
     var auth = vm.tmpAuth
-    if (!loginService.validateEmail(vm.tmpAuth.email)) {
+    if (!LoginService.validateEmail(vm.tmpAuth.email)) {
       alert('Email address not valid!')
       return
     }
-    if (!loginService.validatePassword(vm.tmpAuth.password, vm.tmpAuth.confirmedPass)) {
+    if (!LoginService.validatePassword(vm.tmpAuth.password, vm.tmpAuth.confirmedPass)) {
       alert('Passwords are invalid or do not match.')
       return
     }
-    if (!loginService.validateUsername(vm.tmpAuth.uname)) {
+    if (!LoginService.validateUsername(vm.tmpAuth.uname)) {
       alert('Username invalid')
       return
     }

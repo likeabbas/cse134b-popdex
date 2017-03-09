@@ -42,12 +42,11 @@
     var auth = this.sharedState.state.auth
     var vm = this
 
-    var loginService = new LoginService()
-    if (!loginService.validateEmail(this.email)) {
+    if (!LoginService.validateEmail(this.email)) {
       alert('Email address not valid!')
       return
     }
-    if (!loginService.passwordSecurity(this.password)) {
+    if (!LoginService.passwordSecurity(this.password)) {
       alert('Password does not meet security requirements')
       return
     }

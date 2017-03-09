@@ -8,15 +8,24 @@ var makeKey = function(str) {
     for(var inv in invalidChars) {
         str = str.replace(invalidChars[inv], "");
     }
-    str = str.replace(" ", "_");
     return str;
 }
 
 var findEdition = function(list) {
     for(var i = 0; i < list.length; i++) {
         var idx;
-        if((idx = list[0].indexOf("#")) != -1) {
-            return list[0].substring(idx + 1, list[0].length);
+        if((idx = list[i].indexOf("#")) != -1) {
+            return list[i].substring(idx + 1, list[i].length);
+        }
+    }
+    return undefined;
+}
+
+var findRelease = function(list) {
+    for(var i = 0; i < list.length; i++) {
+        var idx = 0;
+        if((idx = list[i].indexOf("Released")) != -1) {
+            return list[i]
         }
     }
     return undefined;
@@ -66,19 +75,23 @@ for (var brand in list) {
 	console.log(brand);
 	for(var subBrand in list[brand]) {
         console.log("subBrand " + subBrand);
-        var key = makeKey('/' + brand + '/' + subBrand);
+        var key = makeKey('pops/' + subBrand);
         console.log(key);
         var ref = db.ref(key);
         var items = list[brand][subBrand];
         for(var i = 0; i < items.length; i++) {
             console.log(items[i]);
             console.log("after item");
-            if(items[i].edition != undefined) {
-                var specRef = ref.child(items[i].edition);
-                specRef.set(items[i]);
-            } else {
-                ref.push(items[i]);
+            var edition = undefined
+            if((edition  = findEdition(items[i].attributes)) !== undefined) {
+                items[i].edition = parseInt(edition)
+            } 
+            var release = undefined
+            if((release = findRelease(items[i].attributes)) !== undefined) {
+                items[i].release = release
             }
+            ref.push(items[i]);
+
             
         }
         console.log("after item loop");

@@ -11,10 +11,8 @@
           <div id="mainContent">
             <FrontPage 
               v-for="item in items" 
-              v-bind:itemBrand="item.itemBrand" 
-              v-bind:itemName="item.itemName" 
-              v-bind:itemPictureSource="item.itemPictureSource"
-              :key="item.itemName">
+              v-bind:item="item"
+              :key="item.name">
             </FrontPage>
           </div>
         </div>
@@ -24,7 +22,8 @@
 
 <script>
 import FrontPage from './LeadComponents/FrontPagePopComponent'
-
+import store from '../storage'
+import FBService from '../fbservice'
 export default {
   components: {
     FrontPage
@@ -33,23 +32,33 @@ export default {
   data () {
     return {
       // get object from server and render FrontPagePopComponent
-      items: [
-        {
-          itemBrand: 'Abbas',
-          itemName: 'No',
-          itemPictureSource: 'http://globalgamejam.org/sites/default/files/styles/game_sidebar__normal/public/game/featured_image/promo_5.png?itok=9dymM8JD'
-        },
-        {
-          itemBrand: 'Abbas',
-          itemName: 'No',
-          itemPictureSource: 'http://globalgamejam.org/sites/default/files/styles/game_sidebar__normal/public/game/featured_image/promo_5.png?itok=9dymM8JD'
-        },
-        {
-          itemBrand: 'Abbas',
-          itemName: 'No',
-          itemPictureSource: 'http://globalgamejam.org/sites/default/files/styles/game_sidebar__normal/public/game/featured_image/promo_5.png?itok=9dymM8JD'
-        }
-      ]
+      items: [],
+      sharedState: store
+    }
+  },
+  created () {
+    this.fetchTrendingLead()
+  },
+  watch: {
+    // '$route': 'fetchTrending'
+  },
+  methods: {
+    fetchTrendingLead: function () {
+      console.log('fetch trending')
+      var vm = this
+      FBService.fetchTrending(this.sharedState.firebase)
+        .then(
+          function (data) {
+            var pops = data.val()
+            console.log('got pops\n' + JSON.stringify(pops))
+            var num = 0
+            for (var prop in pops) {
+              pops[prop].brand = data.key
+              vm.items.push(pops[prop])
+              if (num === 2) break
+              num++
+            }
+          })
     }
   }
 }

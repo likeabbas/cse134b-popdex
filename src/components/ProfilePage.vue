@@ -84,8 +84,7 @@
     },
     computed: {
       brandOptions: function () {
-        var userService = new UserService()
-        userService.fillData(this.sharedState.firebase)
+        UserService.fillData(this.sharedState.firebase)
         this.selectedBrand = 'All Brands'
         return ['All Brands', 'Adventure Time', 'TMNT']
       }
@@ -94,10 +93,9 @@
       selectedBrand: function (value) {
         console.log('in watch function')
         console.log('value ' + value)
-        var userService = new UserService()
         var vm = this
         console.log
-        userService.getPops(this.sharedState.firebase, value).then(function (data) {
+        UserService.getPops(this.sharedState.firebase, value).then(function (data) {
           console.log('got the pops\n' + JSON.stringify(data.val()))
           var pops = data.val()
           if (pops !== null) {
@@ -120,7 +118,8 @@
         console.log('/users/' + user.uid + '/pops/' + itemUid)
 
         // delete from database
-        firebase.database().ref('/users/' + user.uid + '/pops/' + this.selectedBrand + '/' + itemUid).set(null)
+        /* firebase.database().ref('/users/' + user.uid + '/pops/' + this.selectedBrand + '/' + itemUid).set(null) */
+        UserService.deleteItemDB(firebase, this.selectedBrand, itemUid)
 
         // remove from view
         this.$delete(this.items, itemUid)
