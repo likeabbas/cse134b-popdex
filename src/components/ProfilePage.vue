@@ -53,11 +53,10 @@
     </div>
       
     <div v-if="dataLoaded" class="userMainContent row">
-      <CirclePop v-for="(item, index) in items" v-bind:item="item" 
-                 v-bind:uid="item.uid" 
-                 v-bind:deleteItemParent="deleteItem"
-                 v-on:remove="deleteItem(index, item.uid)"
-                 :key="item.uid">
+      <CirclePop v-for="(item, key) in items"
+                 v-bind:item="item" 
+                 v-on:remove="deleteItem(key)"
+                 :key="key">
       </CirclePop>
     </div>
 
@@ -103,42 +102,29 @@
           var pops = data.val()
           if (pops !== null) {
             // TODO add something if there are no pops
-            vm.items = Object.keys(pops).map(function (key) {
-              var pop = pops[key]; pop.uid = key; return pop
-            })
+            vm.items = pops
             vm.dataLoaded = true
           } else {
             vm.dataLoaded = false
           }
-          console.log('items\n' + JSON.stringify(vm.items))
         })
       }
     },
     methods: {
-      deleteItem: function (index, itemUid) {
+      deleteItem: function (itemUid) {
         console.log('in this function')
         // var userService = new UserService()
         // userService.deleteItemDB(this.sharedState.firebase, itemUid)
         var firebase = this.sharedState.firebase
         var user = firebase.auth().currentUser
         console.log('/users/' + user.uid + '/pops/' + itemUid)
+
+        // delete from database
         firebase.database().ref('/users/' + user.uid + '/pops/' + this.selectedBrand + '/' + itemUid).set(null)
-        this.items.splice(index, 1)
+
+        // remove from view
+        this.$delete(this.items, itemUid)
       }
     }
-
-      /* methods: {
-        brandChange: function () {
-          console.log('brand changed to ' + this.selectedBrand)
-          if (this.selectedBrand === 'TMNT') {
-            this.items.push({
-              name: 'John Doe',
-              price: '$15',
-              brand: 'Hell',
-              img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Penguins_walking_-Moltke_Harbour,_South_Georgia,_British_overseas_territory,_UK-8.jpg/220px-Penguins_walking_-Moltke_Harbour,_South_Georgia,_British_overseas_territory,_UK-8.jpg'
-            })
-          }
-        }
-      } */
 }
 </script>

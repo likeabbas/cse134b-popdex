@@ -12,15 +12,10 @@
 
 <script>
 export default {
-  props: ['item', 'uid', 'deleteItemParent'],
+  props: ['item'],
   data: function () {
     return {
       defaultImg: this.item.picture_src
-    }
-  },
-  methods: {
-    deleteItem: function (itemUid) {
-      this.deleteItemParent(itemUid)
     }
   }
 }
