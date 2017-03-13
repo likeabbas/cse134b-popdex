@@ -4,6 +4,10 @@ export default class FBService {
     return popRef.once('value')
   }
 
+  // static fetchitem (firebase) {
+  //   return firebase.database.ref('/pops/')
+  // }
+
   static fetchBrands (firebase) {
     return firebase.database().ref('/pops/brands').once('value')
   }

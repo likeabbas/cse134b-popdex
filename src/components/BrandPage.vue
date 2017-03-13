@@ -24,10 +24,17 @@
       </div>
       <!-- <br><br><br><br><br><br>  -->
       <div class=guideContent> 
-       
-        <CirclePop v-for="(item, key) of items" 
+       <!-- <router-link v-for="(item, key) of items" 
+                    :brand="brand" 
+                    :attributes="key"
+                    :to="{name: 'item', --> 
+
+        <CirclePop  v-for="(item, key) of items"
+                   v-bind:brand="brand" 
                    v-bind:item="item"
-                   :key="key"></CirclePop>
+                   :key="key">
+                   </CirclePop>
+                   <!-- </router-link> -->
       </div>
     </div>
   </div>

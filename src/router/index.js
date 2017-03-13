@@ -7,6 +7,7 @@ import Lead from '@/components/Lead'
 import ProfilePage from '@/components/ProfilePage'
 import Guide from '@/components/MainGuide'
 import BrandPage from '@/components/BrandPage'
+import SpecificItemPage from '@/components/SpecificItem'
 
 export default new Router({
   routes: [
@@ -33,6 +34,12 @@ export default new Router({
       path: '/brand/:id',
       component: BrandPage,
       name: 'brand'
+    },
+    {
+      path: '/item/:itemId',
+      component: SpecificItemPage,
+      name: 'item',
+      props: true
     }
 
   ]

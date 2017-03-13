@@ -3,8 +3,8 @@
     <div class="row">
     
       <ItemView  
-        v-bind:itemBrand="item.itemBrand" 
-        v-bind:itemName="item.itemName" 
+        v-bind:itemBrand="brandName" 
+        v-bind:itemName="item.name" 
         v-bind:itemPictureSource="item.itemPictureSource">
       </ItemView>
 
@@ -13,15 +13,15 @@
         <table class="striped">
           <tr>
             <td>Market Price</td>
-            <td>{{item.itemPrice}}</td>
+            <td>{{item.price}}</td>
           </tr>
           <tr>
             <td>Edition Size</td>
-            <td>{{item.itemQuantity}}</td>
+            <td>{{item.edition}}</td>
           </tr>
           <tr>
             <td>Quantity You Own</td>
-            <td>{{item.ownerQuantity}}</td>
+            <td></td>
             <td><button class="btn">Update</button></td>
           </tr>
         </table>
@@ -39,22 +39,40 @@
 
 <script>
   import ItemView from './SpecificItemComponents/ItemView'
+  import store from '../storage'
 
   export default {
     name: 'SpecificItem',
+    props: ['brandName', 'item'],
     components: {
       ItemView
     },
     data () {
       return {
-        item: {
-          itemBrand: 'Abbas',
-          itemName: 'No',
-          itemPictureSource: 'http://globalgamejam.org/sites/default/files/styles/game_sidebar__normal/public/game/featured_image/promo_5.png?itok=9dymM8JD',
-          itemPrice: '$400',
-          itemQuantity: '9000',
-          ownerQuantity: '1'
-        }
+        sharedSate: store
+        // item: {
+        //   itemBrand: 'Abbas',
+        //   itemName: 'No',
+        //   itemPictureSource: 'http://globalgamejam.org/sites/default/files/styles/game_sidebar__normal/public/game/featured_image/promo_5.png?itok=9dymM8JD',
+        //   itemPrice: '$400',
+        //   itemQuantity: '9000',
+        //   ownerQuantity: '1'
+        // }
+        // itemId: this.$route.params.itemId,
+      }
+    },
+    created () {
+      // this.fetchData()
+      this.please()
+    },
+    methods: {
+      // fetchData: function() {
+      //   var vm = this
+      //   console.log("in specific item fetch")
+      //   FBService.fetchItem(vm.sharedSate.firebase, vm.brandName, vm.item.name).then(function (data) )
+      // }
+      please () {
+        console.log(this.item)
       }
     }
   }

@@ -17,8 +17,8 @@
         <Franchise v-for="(brand, key) in brands"
                    v-bind:brand="brand"
                    :key="key">
-          <router-link to="{path: 'brand', params: {id: brand.brand}}">
-          </router-link>
+          <!-- <router-link to="{path: 'brand', params: {id: brand.brand}}"> -->
+          <!-- </router-link> -->
         </Franchise>
       </div>
     </div>
