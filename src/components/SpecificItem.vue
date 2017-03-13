@@ -5,7 +5,7 @@
       <ItemView  
         v-bind:itemBrand="brandName" 
         v-bind:itemName="item.name" 
-        v-bind:itemPictureSource="item.itemPictureSource">
+        v-bind:itemPictureSource="item.picture_src">
       </ItemView>
 
       <div class="col s6">
