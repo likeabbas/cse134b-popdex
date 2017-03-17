@@ -7,9 +7,9 @@
         <input v-model:email="email" type="email" placeholder="Email Address" name=username><br>
         <input v-model:text="password" type="password" placeholder="Password" name=password><br>
         </form>
-        <a class="waves-effect waves-light btn" v-on:click="googleLogin">Google Sign In</a>
-        <a class="waves-effect waves-light btn" v-on:click="loggingIn">Log In</a>
-        <a class="waves-effect waves-light btn">Sign Up</a>
+        <a class="waves-effect waves-light btn modalBtn" v-on:click="googleLogin">Google Sign In</a>
+        <a class="waves-effect waves-light btn modalBtn" v-on:click="loggingIn">Log In</a>
+        <button id="loginClose" ref="loginClose" class="waves-effect waves-light btn modalBtn" v-on:click="$emit('close')">Close</button>
       </div>
     </div>
   </div>

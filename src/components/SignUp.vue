@@ -1,4 +1,4 @@
-<template>
+e<template>
   <div class='modal-mask'>
     <div class='modal-wrapper'>
       <div class="container modal-container">
@@ -9,8 +9,8 @@
           <input v-model:text="tmpAuth.password" placeholder="Password" name=password><br>
           <input v-model:text="tmpAuth.confirmedPass" placeholder="Retype Password" name=retypedPassword><br>
         </form>
-        <button class="waves-effect waves-light btn" v-on:click="signingUp()">Sign Up</button>
-        <button id="signupClose" ref="signupClose" class="waves-effect waves-light btn" v-on:click="$emit('close')">Close</button>
+        <button class="waves-effect waves-light btn modalBtn" v-on:click="signingUp()">Sign Up</button>
+        <button id="signupClose" ref="signupClose" class="waves-effect waves-light btn modalBtn" v-on:click="$emit('close')">Close</button>
       </div>
     </div>
   </div>
