@@ -69,7 +69,7 @@
     data () {
       return {
         sharedState: store,
-        selectedBrand: '',
+        selectedBrand: 'All Brands',
         username: store.state.auth.user.displayName,
         dataLoaded: false,
         gallery: 'collection',
@@ -89,41 +89,7 @@
     },
     watch: {
       selectedBrand: function (value) {
-        console.log('in watch function')
-        console.log('value ' + value)
-        var vm = this
-        var list
-        if (value === 'Brands') {
-          vm.displayedItems = []
-          return
-        }
-        if (vm.gallery === 'collection') {
-          list = vm.items
-        } else if (vm.gallery === 'wishlist') {
-          list = vm.wishlist
-        }
-
-        if (value === 'All Brands') {
-          vm.displayedItems = []
-          for (var prop in list) {
-            for (var idx = 0; idx < list[prop].length; idx++) {
-              console.log(list[prop][idx])
-              vm.displayedItems.push(list[prop][idx])
-            }
-          }
-          vm.displayedItems = vm.sortItems(vm.displayedItems)
-          // console.log(vm.displayedItems)
-        } else {
-          var objs = vm.sortItems(list[value])
-          vm.displayedItems = objs
-        }
-
-        if (vm.displayedItems !== undefined) {
-          vm.dataLoaded = true
-        } else {
-          vm.dataLoaded = false
-        }
-        console.log(vm.displayedItems)
+        this.itemUpdate()
       },
       sortSelect: function (value) {
         var vm = this
@@ -183,10 +149,12 @@
       collectionDisplay () {
         this.gallery = 'collection'
         this.selectedBrand = this.brandOptions[this.gallery][0]
+        this.itemUpdate()
       },
       wishlistDisplay () {
         this.gallery = 'wishlist'
         this.selectedBrand = this.brandOptions[this.gallery][0]
+        this.itemUpdate()
       },
       sortItems (list) {
         var vm = this
@@ -202,6 +170,36 @@
             }
           })
         }
+      },
+      itemUpdate () {
+        var vm = this
+        var list
+        if (vm.gallery === 'collection') {
+          list = vm.items
+        } else if (vm.gallery === 'wishlist') {
+          list = vm.wishlist
+        }
+
+        if (vm.selectedBrand === 'All Brands') {
+          vm.displayedItems = []
+          for (var prop in list) {
+            for (var idx = 0; idx < list[prop].length; idx++) {
+              console.log(list[prop][idx])
+              vm.displayedItems.push(list[prop][idx])
+            }
+          }
+          // console.log(vm.displayedItems)
+        } else {
+          vm.displayedItems = list[vm.selectedBrand]
+        }
+
+        if (vm.displayedItems !== undefined) {
+          vm.displayedItems = vm.sortItems(vm.displayedItems)
+          vm.dataLoaded = true
+        } else {
+          vm.dataLoaded = false
+        }
+        console.log(vm.displayedItems)
       }
     }
 }
