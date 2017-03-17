@@ -56,6 +56,16 @@ export default class UserService {
     .set(item)
   }
 
+  static getItems (firebase, type, gallery) {
+    var user = firebase.auth().currentUser
+    if (user === null || user === undefined) {
+      return null
+    }
+    return firebase.database()
+    .ref('/users/' + user.uid + '/' + gallery + '/' + type)
+    .orderByKey()
+  }
+
   static checkForItem (firebase, user, brand, uid) {
     var itemRef = firebase.database()
     .ref('/users/' + user.uid + '/collection/pops/' + brand + '/' + uid)

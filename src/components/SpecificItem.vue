@@ -128,7 +128,7 @@
           alert('Not logged in')
           return
         }
-        console.log('add to collection ' + vm.uid + ', ' + vm.item.name)
+        console.log('add to wishlist' + vm.uid + ', ' + vm.item.name)
         UserService.modifyWishlist(vm.sharedState.firebase, user, vm.brand, vm.uid, vm.item, 'add')
       }
     }
