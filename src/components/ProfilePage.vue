@@ -77,7 +77,7 @@
         wishlist: [],
         displayedItems: [],
         displayedBrands: [],
-        brandOptions: {'collection': [], 'wishlist': []},
+        brandOptions: {'collection': ['All Brands'], 'wishlist': ['All Brands']},
         sortOptions: [['Name (A-Z)', {attr: 'name', ascending: true}],
                       ['Name (Z-A)', {attr: 'name', ascending: false}]],
         sortSelect: 0
@@ -104,10 +104,15 @@
         }
 
         if (value === 'All Brands') {
+          vm.displayedItems = []
           for (var prop in list) {
-            console.log(prop)
-            vm.displayedItems.concat(list[prop])
+            for (var idx = 0; idx < list[prop].length; idx++) {
+              console.log(list[prop][idx])
+              vm.displayedItems.push(list[prop][idx])
+            }
           }
+          vm.displayedItems = vm.sortItems(vm.displayedItems)
+          // console.log(vm.displayedItems)
         } else {
           var objs = vm.sortItems(list[value])
           vm.displayedItems = objs
