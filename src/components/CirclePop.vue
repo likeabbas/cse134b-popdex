@@ -12,7 +12,7 @@
               <router-link  
                     :brandName="brand"
                     :item="item"
-                    :to="{name: 'item', params: {item: item, brandName: brand}}"
+                    :to="{name: 'item', params: {itemId: uid, brandName: brand, item: item, brand: brand, uid: uid}}"
                     ><p class="userItemName">{{item.name}}</p>
                     <!-- </router-link> -->
               <p class=bottomTextCirlce>{{item.price}}</p>
@@ -25,6 +25,6 @@
 
 <script>
 export default {
-  props: ['item', 'brand']
+  props: ['item', 'brand', 'uid']
 }
 </script>

@@ -26,7 +26,6 @@ e<template>
   function signingUp (event) {
     // Routing to the profile page
     console.log(this.tmpAuth)
-    var userService = new UserService()
     var vm = this
     var auth = vm.tmpAuth
     if (!LoginService.validateEmail(vm.tmpAuth.email)) {
@@ -55,8 +54,8 @@ e<template>
           displayName: vm.tmpAuth.uname
         }).then(function () {
           console.log('successfully stored username')
-          userService.writeNewUserAccount(vm.sharedState.state.auth.user,
-                                        vm.sharedState.firebase)
+          UserService.writeNewUserAccount(vm.sharedState.state.auth.user,
+                                         vm.sharedState.firebase)
           vm.sharedState.state.auth.user
         }).catch(function (error) {
           alert(error.message)

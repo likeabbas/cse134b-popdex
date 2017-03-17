@@ -70,6 +70,7 @@ firebase.initializeApp(config);
 var db = firebase.database();
 console.log(Object.keys(list));
 var keys = Object.keys(list);
+var bRef = db.ref('pops/brands')
 for (var brand in list) {
     console.log("for brand " + brand);
 	console.log(brand);
@@ -79,7 +80,14 @@ for (var brand in list) {
         console.log(key);
         var ref = db.ref(key);
         var items = list[brand][subBrand];
-        for(var i = 0; i < items.length; i++) {
+
+        var b = makeKey(subBrand)
+        var obj = {
+           brand: b,
+           numItems: items.length
+        }
+        bRef.push(obj)
+        /* for(var i = 0; i < items.length; i++) {
             console.log(items[i]);
             console.log("after item");
             var edition = undefined
@@ -90,10 +98,10 @@ for (var brand in list) {
             if((release = findRelease(items[i].attributes)) !== undefined) {
                 items[i].release = release
             }
-            ref.push(items[i]);
+            //ref.push(items[i]);
 
             
-        }
+        } */
         console.log("after item loop");
 		
 	}

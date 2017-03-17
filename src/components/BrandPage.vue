@@ -32,6 +32,7 @@
         <CirclePop  v-for="(item, key) of items"
                    v-bind:brand="brand" 
                    v-bind:item="item"
+                   v-bind:uid="key"
                    :key="key">
                    </CirclePop>
                    <!-- </router-link> -->

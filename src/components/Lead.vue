@@ -37,13 +37,13 @@ export default {
     }
   },
   created () {
-    this.fetchTrendingLead()
+    this.fetchData()
   },
   watch: {
     // '$route': 'fetchTrending'
   },
   methods: {
-    fetchTrendingLead: function () {
+    fetchData: function () {
       console.log('fetch trending')
       var vm = this
       FBService.fetchTrending(this.sharedState.firebase)

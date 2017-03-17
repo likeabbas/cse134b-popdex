@@ -36,7 +36,7 @@ export default new Router({
       name: 'brand'
     },
     {
-      path: '/item/:itemId',
+      path: '/item/:brandName/:itemId',
       component: SpecificItemPage,
       name: 'item',
       props: true
