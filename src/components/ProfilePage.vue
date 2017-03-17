@@ -13,22 +13,7 @@
           </div>
         </div>
 
-<<<<<<< HEAD
-        <!--<div class="col s8">
-          <form>
-            <p>
-              <input type="checkbox" id="check1" />
-              <label for="test5">You</label>
-            </p>
-              <p>
-              <input type="checkbox" id="check2" />
-              <label for="test5">There</label>
-            </p>
-              <p>
-              <input type="checkbox" id="check3" />
-              <label for="test5">Hey</label>
-            </p>
-          </form></div> -->
+      
           <div class="col s12">
             <form>   
               <div class="input-field col s4">
@@ -53,34 +38,8 @@
                   </option>
                 </select>
               </div>
-            
-            </form>
-=======
-        <div class="col s12">
-          <form>  
->>>>>>> cba623cc50363ff07a96f883ea0dd74ac2868cf1
-
-            <div class="input-field col s4">
-              <input type=text name=filterSearch placeholder="Filter Search">
-            </div>
-
-            <div id="brand-selector" class="input-field col s4">
-              <select v-model="selectedBrand" class="browser-default">
-                <option v-for="option in brandOptions[gallery]" v-bind:value="option">
-                  {{option}}
-                </option>
-              </select>
-            </div>
-
-            <div id="sort-selector" class="input-field col s4">
-              <select class="browser-default">
-                <option value="price">Price</option>
-                <option value="name">Name</option>
-              </select>
-            </div>
-          
           </form>
-        </div>      
+          </div>
     </div>
       
     <div v-if="dataLoaded" class="userMainContent row">
