@@ -1,6 +1,6 @@
 <template>
-  <div class="content container">
-    <div class="row">
+  <div class="content container" style="margin-top: 50px">
+    <div class="row" style="margin: auto">
       
       <div class="col s6">
 
@@ -21,32 +21,20 @@
 
       </div>
 
-      <div class="col s6">
+      <div class="col s3" style="margin-top: 60px; font-size: 20p; margin-left: 80px">
         <br><br><br><br>
 
-        <table class="striped">
+        <table>
           <tr>
             <td>Market Price</td>
-            <td>{{item.price}}</td>
+            <td style="font-style: italic">{{item.price}}</td>
           </tr>
           <tr>
             <td>Edition Size</td>
-            <td>{{item.edition}}</td>
+            <td style="font-style: italic">{{item.edition}}</td>
           </tr>
-          <tr>
-            <td>Quantity You Own</td>
-            <td></td>
-            <td><button class="btn">Update</button></td>
-          </tr>
-
         </table>
       </div>
-
-      <div class="col s12">
-        <h4>Related item</h4>
-        <img src="http://placehold.it/900x200" class="responsive-img">
-      </div> 
-
     </div>
 
   </div>

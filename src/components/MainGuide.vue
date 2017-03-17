@@ -3,10 +3,6 @@
     <div class="row">
       <div class="col s12">
         <div id=preContent>
-
-            <a class="waves-effect waves-light btn" style="float: left; margin: 10px;">Pop! Vinyl</a>
-            <a class="waves-effect waves-light btn" style="float: left; margin: 10px;">Dorbz</a>
-            <a class="waves-effect waves-light btn" style="float: left; margin: 10px;">Myster Vinyl</a>
       
           <form action="#">
             <input id="mainGuideFilterSearch" type=text name=filterSearch placeholder="Filter Search" v-on:keyup="filterBrands()">
@@ -16,7 +12,7 @@
       </div>
 
       <div class=guideContent>
-      
+
         <Franchise v-for="(brand, key) in curBrands"
                    v-bind:brand="brand"
                    :key="key">
