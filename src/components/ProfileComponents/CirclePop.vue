@@ -1,6 +1,6 @@
 <template>
 <div class="col s4">
-          <div class=circle>
+          <div class=circle style="text-align:center">
             <img alt="" v-bind:src="defaultImg" width=150 height=150> 
             <p class="userItemName">{{item.name}}</p>
             <p class="topTextCircle">{{item.brand}}</p>
