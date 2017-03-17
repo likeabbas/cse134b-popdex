@@ -136,6 +136,7 @@
           })
 
           fetch.on('child_changed', function (data) {
+            console.log('child_changed')
             var objList = Object.keys(data.val()).map(function (key, idx) {
               var obj = data.val()[key]
               obj['uid'] = key
@@ -143,6 +144,14 @@
               return obj
             })
             list[data.key] = objList
+            if (vm.selectedBrand === data.key || vm.selectedBrand === 'All Brands') {
+              vm.itemUpdate()
+            }
+          })
+          fetch.on('child_removed', function (data) {
+            console.log('child_removed')
+            console.log('child data\nkey: ' + data.key + '\ndata: ' + JSON.stringify(data.val()))
+            // need to remove from brand options and items
           })
         }
       },
