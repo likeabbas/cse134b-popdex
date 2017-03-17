@@ -35,15 +35,21 @@
               </div>
               <div id="brand-selector" class="input-field col s4">
                 <select v-model="selectedBrand" class="browser-default">
+                  <option disabled value="">Brands</option>
                   <option v-for="option in brandOptions[gallery]" v-bind:value="option">
                     {{option}}
                   </option>
                 </select>
               </div>
+
               <div id="sort-selector" class="input-field col s4">
-                <select class="browser-default">
-                  <option value="price">Price</option>
-                  <option value="name">Name</option>
+                <select v-model="sortSelect" class="browser-default">
+                  <option disabled value="">Sort By</option>
+                  <option v-for="(option, index) in sortOptions" 
+                          v-bind:value="index"
+                          value="price">
+                    {{option[0]}}
+                  </option>
                 </select>
               </div>
             
@@ -53,13 +59,11 @@
     </div>
       
     <div v-if="dataLoaded" class="userMainContent row">
-      <div v-for="(obj, brand) in displayedItems">
-      <CirclePop v-for="(item, key) in obj"
+      <CirclePop v-for="(item, index) in displayedItems"
                  v-bind:item="item" 
-                 v-on:remove="deleteItem(key)"
-                 :key="key">
+                 v-on:remove="deleteItem(index)"
+                 :key="item.uid">
       </CirclePop>
-      </div>
     </div>
 
     </div>
@@ -84,9 +88,12 @@
         gallery: 'collection',
         items: [],
         wishlist: [],
-        displayedItems: {},
+        displayedItems: [],
         displayedBrands: [],
-        brandOptions: ['All Brands']
+        brandOptions: {'collection': [], 'wishlist': []},
+        sortOptions: [['Name (A-Z)', {attr: 'name', ascending: true}],
+                      ['Name (Z-A)', {attr: 'name', ascending: false}]],
+        sortSelect: 0
       }
     },
     created () {
@@ -99,7 +106,10 @@
         console.log('value ' + value)
         var vm = this
         var list
-
+        if (value === 'Brands') {
+          vm.displayedItems = []
+          return
+        }
         if (vm.gallery === 'collection') {
           list = vm.items
         } else if (vm.gallery === 'wishlist') {
@@ -107,14 +117,13 @@
         }
 
         if (value === 'All Brands') {
-          for (var prop in vm.items) {
+          for (var prop in list) {
             console.log(prop)
-            console.log(vm.items[prop])
-            vm.$set(vm.displayedItems, prop, list[prop])
+            vm.displayedItems.concat(list[prop])
           }
         } else {
-          vm.displayedItems = {}
-          vm.$set(vm.displayedItems, value, list[value])
+          var objs = vm.sortItems(list[value])
+          vm.displayedItems = objs
         }
 
         if (vm.displayedItems !== undefined) {
@@ -123,6 +132,10 @@
           vm.dataLoaded = false
         }
         console.log(vm.displayedItems)
+      },
+      sortSelect: function (value) {
+        var vm = this
+        vm.displayedItems = vm.sortItems(vm.displayedItems)
       }
     },
     methods: {
@@ -146,9 +159,6 @@
         var fetch = UserService.getItems(vm.sharedState.firebase, 'pops', type)
         if (fetch !== null) {
           var list
-          if (vm.brandOptions[type] === undefined) {
-            vm.brandOptions[type] = []
-          }
           if (type === 'collection') {
             list = vm.items
           } else if (type === 'wishlist') {
@@ -156,13 +166,22 @@
           }
           fetch.on('child_added', function (data) {
             console.log('child data\nkey: ' + data.key + '\ndata: ' + JSON.stringify(data.val()))
-            list[data.key] = data.val()
+            var objList = Object.keys(data.val()).map(function (key, idx) {
+              var obj = data.val()[key]
+              obj['uid'] = key
+              return obj
+            })
+            list[data.key] = objList
             vm.brandOptions[type].push(data.key)
           })
 
           fetch.on('child_changed', function (data) {
-            console.log('child changed\nkey: ' + data.key + '\ndata: ' + JSON.stringify(data.val()))
-            list[data.key] = data.val()
+            var objList = Object.keys(data.val()).map(function (key, idx) {
+              var obj = data.val()[key]
+              obj['uid'] = key
+              return obj
+            })
+            list[data.key] = objList
           })
         }
       },
@@ -173,6 +192,21 @@
       wishlistDisplay () {
         this.gallery = 'wishlist'
         this.selectedBrand = this.brandOptions[this.gallery][0]
+      },
+      sortItems (list) {
+        var vm = this
+        var sortOption = vm.sortOptions[vm.sortSelect][1]['attr']
+        var ascending = vm.sortOptions[vm.sortSelect][1]['ascending']
+
+        if (sortOption === 'name') {
+          return list.sort(function (a, b) {
+            if (ascending) {
+              return a.name.localeCompare(b.name)
+            } else {
+              return b.name.localeCompare(a.name)
+            }
+          })
+        }
       }
     }
 }
