@@ -22,7 +22,9 @@ module.exports = {
       message: '',
       userName: '',
       hasErrors: false
-    }
+    },
+    mainGuidePage: {},
+    brands: {}
   },
   userlink: null,
   setMessageAction (newValue) {

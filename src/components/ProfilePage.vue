@@ -13,6 +13,7 @@
           </div>
         </div>
 
+<<<<<<< HEAD
         <!--<div class="col s8">
           <form>
             <p>
@@ -54,27 +55,54 @@
               </div>
             
             </form>
+=======
+        <div class="col s12">
+          <form>  
+>>>>>>> cba623cc50363ff07a96f883ea0dd74ac2868cf1
 
-          </div>      
+            <div class="input-field col s4">
+              <input type=text name=filterSearch placeholder="Filter Search">
+            </div>
+
+            <div id="brand-selector" class="input-field col s4">
+              <select v-model="selectedBrand" class="browser-default">
+                <option v-for="option in brandOptions[gallery]" v-bind:value="option">
+                  {{option}}
+                </option>
+              </select>
+            </div>
+
+            <div id="sort-selector" class="input-field col s4">
+              <select class="browser-default">
+                <option value="price">Price</option>
+                <option value="name">Name</option>
+              </select>
+            </div>
+          
+          </form>
+        </div>      
     </div>
       
     <div v-if="dataLoaded" class="userMainContent row">
+
       <CirclePop v-for="(item, index) in displayedItems"
                  v-bind:item="item" 
                  v-on:remove="deleteItem(index)"
                  :key="item.uid">
       </CirclePop>
-    </div>
 
     </div>
 
+      </div>
+    </div>
   </div>
+</div>
 </template>
 
 <script>
   import CirclePop from '@/components/ProfileComponents/CirclePop'
-  import store from '../storage'
-  import UserService from '../userservice'
+  import store from '../services/storage'
+  import UserService from '../services/userservice'
 
   export default {
     components: { CirclePop },

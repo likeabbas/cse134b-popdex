@@ -22,8 +22,8 @@
 
 <script>
 import FrontPage from './LeadComponents/FrontPagePopComponent'
-import store from '../storage'
-import FBService from '../fbservice'
+import store from '../services/storage'
+import FBService from '../services/fbservice'
 export default {
   components: {
     FrontPage

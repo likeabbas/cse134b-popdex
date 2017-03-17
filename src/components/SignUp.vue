@@ -1,4 +1,4 @@
-e<template>
+<template>
   <div class='modal-mask'>
     <div class='modal-wrapper'>
       <div class="container modal-container">
@@ -14,18 +14,16 @@ e<template>
       </div>
     </div>
   </div>
-  
 </template>
 
 
 <script>
-  import store from '../storage'
-  import LoginService from '../service'
-  import UserService from '../userservice'
+  import store from '../services/storage'
+  import LoginService from '../services/service'
+  import UserService from '../services/userservice'
 
   function signingUp (event) {
     // Routing to the profile page
-    console.log(this.tmpAuth)
     var vm = this
     var auth = vm.tmpAuth
     if (!LoginService.validateEmail(vm.tmpAuth.email)) {
@@ -42,33 +40,33 @@ e<template>
     }
 
     vm.sharedState.firebase.auth()
-      .createUserWithEmailAndPassword(auth.email, auth.password).then(function (data) {
-        console.log('Successfully created user with email and password')
+      .createUserWithEmailAndPassword(auth.email, auth.password)
+
+      .then(function (data) {
         vm.sharedState.state.auth.user = vm.sharedState.firebase.auth().currentUser
         vm.sharedState.state.auth.user.displayName = vm.tmpAuth.uname
-        /* userService.writeNewUserAccount(vm.sharedState.state.auth.user,
-                                        vm.sharedState.firebase) */
-        console.log(JSON.stringify(data))
 
         vm.sharedState.state.auth.user.updateProfile({
           displayName: vm.tmpAuth.uname
-        }).then(function () {
-          console.log('successfully stored username')
-          UserService.writeNewUserAccount(vm.sharedState.state.auth.user,
-                                         vm.sharedState.firebase)
-          vm.sharedState.state.auth.user
-        }).catch(function (error) {
-          alert(error.message)
         })
 
-        console.log('current user: ' + vm.sharedState.state.auth.user)
-        console.log('returned data :\n' + JSON.stringify(data))
-      }).catch(function (error) {
-        console.log('error in sign up')
+        .then(function () {
+          UserService.writeNewUserAccount(vm.sharedState.state.auth.user,
+                                       vm.sharedState.firebase)
+          vm.sharedState.state.auth.user
+        })
+
+        .catch(function (error) {
+          alert(error.message)
+        })
+      })
+
+      .catch(function (error) {
         vm.sharedState.state.auth.message = error.message
         vm.sharedState.state.auth.hasErrors = true
         alert(error.message)
       })
+
     vm.$emit('close')
   }
 
