@@ -69,8 +69,8 @@
 
 <script>
   import CirclePop from '@/components/ProfileComponents/CirclePop'
-  import store from '../storage'
-  import UserService from '../userservice'
+  import store from '../services/storage'
+  import UserService from '../services/userservice'
 
   export default {
     components: { CirclePop },

@@ -43,9 +43,9 @@
 
 <script>
   import CirclePop from '@/components/CirclePop'
-  import store from '../storage'
+  import store from '../services/storage'
   // import UserService from '../userservice'
-  import FBService from '../fbservice'
+  import FBService from '../services/fbservice'
 
   export default {
     components: { CirclePop },
@@ -63,11 +63,15 @@
     methods: {
       fetchData: function () {
         var vm = this
-        console.log('in brand pop fetch')
-        FBService.fetchByBrand(vm.sharedState.firebase, vm.brand)
-          .then(function (data) {
-            vm.items = data.val()
-          })
+        if (vm.sharedState.state.brands[this.brand] === undefined) {
+          FBService.fetchByBrand(vm.sharedState.firebase, vm.brand)
+            .then(function (data) {
+              vm.items = data.val()
+              vm.sharedState.state.brands[vm.brand] = vm.items
+            })
+        } else {
+          vm.items = vm.sharedState.state.brands[vm.brand]
+        }
       }
     }
 }

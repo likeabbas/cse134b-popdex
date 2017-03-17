@@ -26,10 +26,10 @@
 </template>
 
 <script>
-import store from '../storage'
+import store from '../services/storage'
 import Franchise from '@/components/GuideComponents/FranchiseCard'
-import FBService from '../fbservice'
-import filterService from '../filterService'
+import FBService from '../services/fbservice'
+import filterService from '../services/filterService'
 
 export default {
   name: 'MainGuide',
@@ -50,23 +50,29 @@ export default {
   },
   methods: {
     fetchBrandsMain: function () {
-      console.log('fetch brands')
       var vm = this
-      FBService.fetchBrands(this.sharedState.firebase)
-        .then(function (data) {
-          var brands = data.val()
-          console.log('got brands\n' + JSON.stringify(brands))
-          vm.brands = brands
-          vm.curBrands = brands
-          for (var key in brands) {
-            vm.listOfBrands.push(brands[key].brand)
+      // If we have fetched the brands before then don't fetch them again
+      if (Object.keys(vm.sharedState.state.mainGuidePage).length === 0) {
+        FBService.fetchBrands(vm.sharedState.firebase)
+          .then(function (data) {
+            var brands = data.val()
+            vm.brands = brands
+            vm.sharedState.state.mainGuidePage = brands
+            vm.curBrands = brands
+            for (var key in brands) {
+              vm.listOfBrands.push(brands[key].brand)
+            }
           }
-        })
+        )
+      } else {
+        vm.curBrands = vm.sharedState.state.mainGuidePage
+        for (var key in vm.curBrands) {
+          vm.listOfBrands.push(vm.curBrands[key].brand)
+        }
+      }
     },
     filterBrands: function () {
       this.curBrands = Object.assign({}, filterService.filter(this.listOfBrands, this.brands, document.getElementById('mainGuideFilterSearch').value))
-      console.log(this.curBrands)
-      console.log(document.getElementById('mainGuideFilterSearch').value)
     }
 
   }

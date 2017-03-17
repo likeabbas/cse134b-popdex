@@ -1,4 +1,4 @@
-<template>
+<template >
   <div>
   <nav>
     <div id="header" class="nav-wrapper">
@@ -29,7 +29,7 @@
 
 <script>
 import SignUp from './SignUp'
-import store from '../storage'
+import store from '../services/storage'
 import Login from './Login'
 import router from '../router/index'
 

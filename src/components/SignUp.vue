@@ -19,9 +19,9 @@ e<template>
 
 
 <script>
-  import store from '../storage'
-  import LoginService from '../service'
-  import UserService from '../userservice'
+  import store from '../services/storage'
+  import LoginService from '../services/service'
+  import UserService from '../services/userservice'
 
   function signingUp (event) {
     // Routing to the profile page

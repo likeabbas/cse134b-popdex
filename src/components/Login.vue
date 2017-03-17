@@ -16,8 +16,8 @@
 </template>
 
 <script>
-  import store from '../storage'
-  import LoginService from '../service'
+  import store from '../services/storage'
+  import LoginService from '../services/service'
   function googleLogin () {
     var vm = this
     var provider = new vm.sharedState.firebase.auth.GoogleAuthProvider()

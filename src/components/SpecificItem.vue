@@ -48,8 +48,8 @@
 
 <script>
   import ItemView from './SpecificItemComponents/ItemView'
-  import store from '../storage'
-  import UserService from '../userservice'
+  import store from '../services/storage'
+  import UserService from '../services/userservice'
 
   export default {
     name: 'SpecificItem',
