@@ -11,15 +11,17 @@
           <form action="#">
             <input id="mainGuideFilterSearch" type=text name=filterSearch placeholder="Filter Search" v-on:keyup="filterBrands()">
           </form>
+
         </div>
       </div>
+
       <div class=guideContent>
+      
         <Franchise v-for="(brand, key) in curBrands"
                    v-bind:brand="brand"
                    :key="key">
-          <!-- <router-link to="{path: 'brand', params: {id: brand.brand}}"> -->
-          <!-- </router-link> -->
         </Franchise>
+
       </div>
     </div>
   </div>
