@@ -33,15 +33,22 @@
             <td>Edition Size</td>
             <td style="font-style: italic">{{item.edition}}</td>
           </tr>
+          <tr v-if="owned">
+            <td>Quantity</td>
+            <td>{{item.quantity}}</td>
+            <td><button class="btn" v-on:click="showUpdateQuantityModal = true">Update</button></td>
+          </tr>
         </table>
       </div>
     </div>
-
+  <UpdateQuantity v-bind:item="item" v-bind:brand="brand" v-bind:uid="uid" v-if="showUpdateQuantityModal" @close="showUpdateQuantityModal = false"></UpdateQuantity>
   </div>
+  
 </template>
 
 <script>
   import ItemView from './SpecificItemComponents/ItemView'
+  import UpdateQuantity from './SpecificItemComponents/UpdateQuantity'
   import store from '../services/storage'
   import UserService from '../services/userservice'
 
@@ -49,16 +56,20 @@
     name: 'SpecificItem',
     props: ['brand', 'item', 'uid'],
     components: {
-      ItemView
+      ItemView, UpdateQuantity
     },
     data () {
       return {
         owned: false,
-        sharedState: store
+        sharedState: store,
+        showUpdateQuantityModal: false
       }
     },
     created () {
       this.checkOwned()
+    },
+    watch: {
+      showUpdateQuantityModal: function (val) {}
     },
     methods: {
 
@@ -80,7 +91,6 @@
           }
         })
       },
-
       addToCollection () {
         var vm = this
         var user = vm.sharedState.firebase.auth().currentUser
@@ -91,6 +101,7 @@
         }
 
         UserService.modifyCollection(vm.sharedState.firebase, user, vm.brand, vm.uid, vm.item, 'add')
+        UserService.updateQuantity(vm.sharedState.firebase, user, vm.brand, vm.uid, vm.item, 1)
         vm.owned = true
       },
 
