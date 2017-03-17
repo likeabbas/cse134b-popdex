@@ -37,4 +37,28 @@ export default class UserService {
       .ref('/users/' + user.uid + '/pops/' + brand + '/' + uid)
       .set(null)
   }
+
+  static modifyCollection (firebase, user, brand, uid, item, action) {
+    if (action === 'remove') {
+      item = null
+    }
+    firebase.database()
+    .ref('/users/' + user.uid + '/collection/pops/' + brand + '/' + uid)
+    .set(item)
+  }
+
+  static modifyWishlist (firebase, user, brand, uid, item, action) {
+    if (action === 'remove') {
+      item = null
+    }
+    firebase.database()
+    .ref('/users/' + user.uid + '/wishlist/pops/' + brand + '/' + uid)
+    .set(item)
+  }
+
+  static checkForItem (firebase, user, brand, uid) {
+    var itemRef = firebase.database()
+    .ref('/users/' + user.uid + '/collection/pops/' + brand + '/' + uid)
+    return itemRef.once('value')
+  }
 }
