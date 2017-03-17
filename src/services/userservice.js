@@ -31,10 +31,11 @@ export default class UserService {
     })
   }
 
-  static deleteItemDB (firebase, brand, uid) {
+  static deleteItemDB (firebase, brand, gallery, uid) {
     var user = firebase.auth().currentUser
+    console.log('/users/' + user.uid + '/' + gallery + '/pops/' + brand + '/' + uid)
     firebase.database()
-      .ref('/users/' + user.uid + '/pops/' + brand + '/' + uid)
+      .ref('/users/' + user.uid + '/' + gallery + '/pops/' + brand + '/' + uid)
       .set(null)
   }
 

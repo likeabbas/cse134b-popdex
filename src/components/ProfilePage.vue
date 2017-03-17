@@ -131,20 +131,21 @@
       }
     },
     methods: {
-      deleteItem: function (itemUid) {
-        console.log('in this function')
+      deleteItem: function (index) {
+        var vm = this
+        console.log('in delete')
         // var userService = new UserService()
         // userService.deleteItemDB(this.sharedState.firebase, itemUid)
-        var firebase = this.sharedState.firebase
-        var user = firebase.auth().currentUser
-        console.log('/users/' + user.uid + '/pops/' + itemUid)
+        /* var firebase = this.sharedState.firebase
+        var user = firebase.auth().currentUser */
 
         // delete from database
         /* firebase.database().ref('/users/' + user.uid + '/pops/' + this.selectedBrand + '/' + itemUid).set(null) */
-        UserService.deleteItemDB(firebase, this.selectedBrand, itemUid)
+        var item = vm.displayedItems[index]
+        UserService.deleteItemDB(vm.sharedState.firebase, item.brand, vm.gallery, item.uid)
 
         // remove from view
-        this.$delete(this.items, itemUid)
+        vm.displayedItems.splice(index, 1)
       },
       fetchItems (type) {
         var vm = this
@@ -161,6 +162,7 @@
             var objList = Object.keys(data.val()).map(function (key, idx) {
               var obj = data.val()[key]
               obj['uid'] = key
+              obj['brand'] = data.key
               return obj
             })
             list[data.key] = objList
@@ -171,6 +173,7 @@
             var objList = Object.keys(data.val()).map(function (key, idx) {
               var obj = data.val()[key]
               obj['uid'] = key
+              obj['brand'] = data.key
               return obj
             })
             list[data.key] = objList
