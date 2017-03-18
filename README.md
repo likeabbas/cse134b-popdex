@@ -36,22 +36,22 @@ For information on the webpack setup, go to the [guide](http://vuejs-templates.g
 
 ## Folder Layout
 
-build/          - Webpack Code\n
-config/         - NPM initialization\n 
-src/            - Application code\n
+build/          - Webpack Code 
+config/         - NPM initialization  
+src/            - Application code 
 src/assets/     - CSS, fonts, and images 
-src/components/ - Vue Components and subcomponents (.Vue files)\n
-src/router/     - VueRouter code\n 
-src/services/   - Javascript code (Firebase, storage, etc)\n
+src/components/ - Vue Components and subcomponents (.Vue files) 
+src/router/     - VueRouter code  
+src/services/   - Javascript code (Firebase, storage, etc) 
 
 ## Main Component Structure 
 
-Lead        - Home page which shows currently trending items\n
-MainGuide   - Shows the different brands of Pop! toys sorted alphabetically, and can search through them\n
-BrandPage   - Shows the differnet items of this Pop! brand\n
-UserPage    - Shows the user's current items (My Stuff), able to be sorted A-Z and Z-A\n
-SignUp      - Sign up Modal\n
-Login       - Login Modal\n 
+Lead        - Home page which shows currently trending items 
+MainGuide   - Shows the different brands of Pop! toys sorted alphabetically, and can search through them 
+BrandPage   - Shows the differnet items of this Pop! brand 
+UserPage    - Shows the user's current items (My Stuff), able to be sorted A-Z and Z-A 
+SignUp      - Sign up Modal 
+Login       - Login Modal  
 
 ## App Code Structure
 
