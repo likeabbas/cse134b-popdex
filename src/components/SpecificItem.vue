@@ -91,6 +91,7 @@
           }
         })
       },
+
       addToCollection () {
         var vm = this
         var user = vm.sharedState.firebase.auth().currentUser
