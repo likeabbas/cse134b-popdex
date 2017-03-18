@@ -73,8 +73,8 @@
         username: store.state.auth.user.displayName,
         dataLoaded: false,
         gallery: 'collection',
-        items: [],
-        wishlist: [],
+        // items: store.state.user.items,
+        // wishlist: store.state.user.wishlist,
         displayedItems: [],
         displayedBrands: [],
         brandOptions: {'collection': ['All Brands'], 'wishlist': ['All Brands']},
@@ -84,8 +84,13 @@
       }
     },
     created () {
-      this.fetchItems('collection')
-      this.fetchItems('wishlist')
+      if (store.state.user.items.length === 0) {
+        console.log('fetching')
+        this.fetchItems('collection')
+      }
+      if (store.state.user.wishlist.length === 0) {
+        this.fetchItems('wishlist')
+      }
     },
     watch: {
       selectedBrand: function (value) {
@@ -110,9 +115,9 @@
         if (fetch !== null) {
           var list
           if (type === 'collection') {
-            list = vm.items
+            list = vm.sharedState.state.user.items
           } else if (type === 'wishlist') {
-            list = vm.wishlist
+            list = vm.sharedState.state.user.wishlist
           }
 
           fetch.on('child_added', function (data) {
@@ -174,9 +179,9 @@
         var vm = this
         var list
         if (vm.gallery === 'collection') {
-          list = vm.items
+          list = vm.sharedState.state.user.items
         } else if (vm.gallery === 'wishlist') {
-          list = vm.wishlist
+          list = vm.sharedState.state.user.wishlist
         }
 
         if (vm.selectedBrand === 'All Brands') {
