@@ -81,6 +81,7 @@ export default {
     fetchBrandItems: function (curBrand) {
       var vm = this
       if (vm.sharedState.state.brands[curBrand] === undefined) {
+        vm.sharedState.state.brandToListOfItemNames[curBrand] = []
         FBService.fetchByBrand(vm.sharedState.firebase, curBrand)
           .then(function (data) {
             console.log(data.val())
@@ -90,7 +91,11 @@ export default {
             var i = 0
             for (var key in (vm.sharedState.state.brands[curBrand])) {
               var curImageSource = vm.sharedState.state.brands[curBrand][key].picture_src
+              var curItemName = vm.sharedState.state.brands[curBrand][key].name
+
               vm.sharedState.state.images[i] = curImageSource
+              vm.sharedState.state.brandToListOfItemNames[curBrand].push(curItemName)
+
               var img = new Image()
               img.onload = function () {
                 vm.isCached(curImageSource)
