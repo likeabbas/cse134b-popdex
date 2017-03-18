@@ -50,7 +50,8 @@ export default {
       showLoginModal: false,
       showSignOutModal: false,
       sharedState: store,
-      router: router
+      router: router,
+      loadUserItems: true
     }
   },
   computed: {
@@ -58,17 +59,26 @@ export default {
       var vm = this
       vm.sharedState.firebase.auth()
       .onAuthStateChanged(function (user) {
-        if (user) {
+        console.log('auth changed')
+        if (user !== null) {
+          console.log('true')
+          console.log(JSON.stringify(user))
           vm.sharedState.state.auth.user = user
-          vm.sharedState.state.userlink =
-          vm.sharedState.state.auth.user.uid
-          vm.fetchUserItems('wishlist')
-          vm.fetchUserItems('collection')
+          vm.sharedState.state.userlink = user.uid
+          if (vm.loadUserItems) {
+            vm.fetchUserItems('wishlist')
+            vm.fetchUserItems('collection')
+            vm.loadUserItems = false
+          }
         } else {
+          console.log('false')
           vm.sharedState.state.auth.user = null
           vm.sharedState.state.userlink = null
           vm.sharedState.state.user.collection = []
           vm.sharedState.state.user.wishlist = []
+          vm.sharedState.state.user.brandOptions =
+            {'collection': ['All Brands'], 'wishlist': ['All Brands']}
+          vm.loadUserItems = true
         }
       })
       return (vm.sharedState.state.auth.user !== null)
@@ -90,6 +100,7 @@ export default {
     },
     fetchUserItems (type) {
       var vm = this
+      console.log('getting user ' + type)
       var fetch = UserService.getItems(vm.sharedState.firebase, 'pops', type)
       if (fetch !== null) {
         var list

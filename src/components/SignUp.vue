@@ -6,8 +6,8 @@
         <form>
           <input v-model:email="tmpAuth.uname" type="text" placeholder="Username" name=uname><br>
           <input v-model:email="tmpAuth.email" type="email" placeholder="Email Address" name=email><br>
-          <input v-model:text="tmpAuth.password" placeholder="Password" name=password><br>
-          <input v-model:text="tmpAuth.confirmedPass" placeholder="Retype Password" name=retypedPassword><br>
+          <input v-model:text="tmpAuth.password" placeholder="Password" type="password" name=password><br>
+          <input v-model:text="tmpAuth.confirmedPass" placeholder="Retype Password" type="password" name=retypedPassword><br>
         </form>
         <button class="waves-effect waves-light btn modalBtn" v-on:click="signingUp()">Sign Up</button>
         <button id="signupClose" ref="signupClose" class="waves-effect waves-light btn modalBtn" v-on:click="$emit('close')">Close</button>
