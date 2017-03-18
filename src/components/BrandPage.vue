@@ -2,23 +2,10 @@
   <div class="container">
     <div class="row">
       <div class="col s12">
-        <div id=preContent>
-          <img alt="" class=franchiseImage src="../assets/img/disney.png" style="float: left;" width=218 height=110>
-          <div class=mainButton>Guide Main Page</div>
+        <div id='preContent'>  
+          <h3 class=mainButton>Guide Main Page</h3>
           <form action="#">
-            <input type=text name=filterSearch placeholder="Filter Search">
-            <select>
-              <option value="volvo">Volvo</option>
-              <option value="saab">Saab</option>
-              <option value="opel">Opel</option>
-              <option value="audi">Audi</option>
-            </select>
-            <select>
-              <option value="volvo">Volvo</option>
-              <option value="saab">Saab</option>
-              <option value="opel">Opel</option>
-              <option value="audi">Audi</option>
-            </select>
+            <input id="itemFilterSearch" type=text name=filterSearch placeholder="Filter Search" v-on:keyup="filterItems()">
           </form>
         </div>
       </div>
@@ -29,7 +16,7 @@
                     :attributes="key"
                     :to="{name: 'item', --> 
 
-        <CirclePop  v-for="(item, key) of items"
+        <CirclePop  v-for="(item, key) of curItems"
                    v-bind:brand="brand" 
                    v-bind:item="item"
                    v-bind:uid="key"
@@ -44,7 +31,7 @@
 <script>
   import CirclePop from '@/components/CirclePop'
   import store from '../services/storage'
-  // import UserService from '../userservice'
+  import filterService from '../services/filterService'
   import FBService from '../services/fbservice'
 
   export default {
@@ -54,23 +41,30 @@
       return {
         sharedState: store,
         brand: this.$route.params.id,
-        items: {}
+        items: {},
+        itemNames: [],
+        curItems: {}
       }
     },
     created () {
       this.fetchData()
     },
     methods: {
+      filterItems: function () {
+        this.curItems = Object.assign({}, filterService.filterItems(this.itemNames, this.items, document.getElementById('itemFilterSearch').value))
+      },
       fetchData: function () {
         var vm = this
         if (vm.sharedState.state.brands[this.brand] === undefined) {
           FBService.fetchByBrand(vm.sharedState.firebase, vm.brand)
             .then(function (data) {
               vm.items = data.val()
-              vm.sharedState.state.brands[vm.brand] = vm.items
+              vm.curItems = Object.assign({}, vm.items)
             })
         } else {
-          vm.items = vm.sharedState.state.brands[vm.brand]
+          vm.items = Object.assign({}, vm.sharedState.state.brands[vm.brand])
+          vm.curItems = Object.assign({}, vm.items)
+          vm.itemNames = vm.sharedState.state.brandToListOfItemNames[vm.brand]
         }
       }
     }

@@ -16,9 +16,6 @@
       
           <div class="col s12">
             <form>   
-              <div class="input-field col s4">
-                <input type=text name=filterSearch placeholder="Filter Search">
-              </div>
               <div id="brand-selector" class="input-field col s4">
                 <select v-model="selectedBrand" class="browser-default">
                   <option disabled value="">Brands</option>
