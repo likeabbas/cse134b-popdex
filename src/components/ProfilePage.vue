@@ -73,24 +73,26 @@
         username: store.state.auth.user.displayName,
         dataLoaded: false,
         gallery: 'collection',
-        // items: store.state.user.items,
-        // wishlist: store.state.user.wishlist,
+        collection: store.state.user.collection,
+        wishlist: store.state.user.wishlist,
         displayedItems: [],
         displayedBrands: [],
-        brandOptions: {'collection': ['All Brands'], 'wishlist': ['All Brands']},
+        brandOptions: store.state.user.brandOptions,
         sortOptions: [['Name (A-Z)', {attr: 'name', ascending: true}],
                       ['Name (Z-A)', {attr: 'name', ascending: false}]],
         sortSelect: 0
       }
     },
     created () {
-      if (store.state.user.items.length === 0) {
+      var vm = this
+      if (Object.keys(store.state.user.collection).length === 0) {
         console.log('fetching')
         this.fetchItems('collection')
       }
       if (store.state.user.wishlist.length === 0) {
         this.fetchItems('wishlist')
       }
+      vm.itemUpdate()
     },
     watch: {
       selectedBrand: function (value) {
@@ -115,9 +117,9 @@
         if (fetch !== null) {
           var list
           if (type === 'collection') {
-            list = vm.sharedState.state.user.items
+            list = vm.collection
           } else if (type === 'wishlist') {
-            list = vm.sharedState.state.user.wishlist
+            list = vm.wishlist
           }
 
           fetch.on('child_added', function (data) {
@@ -179,9 +181,9 @@
         var vm = this
         var list
         if (vm.gallery === 'collection') {
-          list = vm.sharedState.state.user.items
+          list = vm.collection
         } else if (vm.gallery === 'wishlist') {
-          list = vm.sharedState.state.user.wishlist
+          list = vm.wishlist
         }
 
         if (vm.selectedBrand === 'All Brands') {

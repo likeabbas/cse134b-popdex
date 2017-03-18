@@ -24,8 +24,9 @@ module.exports = {
       hasErrors: false
     },
     user: {
-      items: [],
-      wishlist: []
+      collection: [],
+      wishlist: [],
+      brandOptions: {'collection': ['All Brands'], 'wishlist': ['All Brands']}
     },
     mainGuidePage: {},
     brands: {}
