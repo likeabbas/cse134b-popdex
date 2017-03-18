@@ -99,18 +99,9 @@
     methods: {
       deleteItem: function (index) {
         var vm = this
-        console.log('in delete')
-        // var userService = new UserService()
-        // userService.deleteItemDB(this.sharedState.firebase, itemUid)
-        /* var firebase = this.sharedState.firebase
-        var user = firebase.auth().currentUser */
-
-        // delete from database
-        /* firebase.database().ref('/users/' + user.uid + '/pops/' + this.selectedBrand + '/' + itemUid).set(null) */
         var item = vm.displayedItems[index]
         UserService.deleteItemDB(vm.sharedState.firebase, item.brand, vm.gallery, item.uid)
 
-        // remove from view
         vm.displayedItems.splice(index, 1)
       },
       fetchItems (type) {
@@ -123,6 +114,7 @@
           } else if (type === 'wishlist') {
             list = vm.wishlist
           }
+
           fetch.on('child_added', function (data) {
             console.log('child data\nkey: ' + data.key + '\ndata: ' + JSON.stringify(data.val()))
             var objList = Object.keys(data.val()).map(function (key, idx) {
@@ -137,6 +129,7 @@
 
           fetch.on('child_changed', function (data) {
             console.log('child_changed')
+            console.log('child data\nkey: ' + data.key + '\ndata: ' + JSON.stringify(data.val()))
             var objList = Object.keys(data.val()).map(function (key, idx) {
               var obj = data.val()[key]
               obj['uid'] = key
@@ -144,9 +137,6 @@
               return obj
             })
             list[data.key] = objList
-            if (vm.selectedBrand === data.key || vm.selectedBrand === 'All Brands') {
-              vm.itemUpdate()
-            }
           })
           fetch.on('child_removed', function (data) {
             console.log('child_removed')
