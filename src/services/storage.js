@@ -23,6 +23,11 @@ module.exports = {
       userName: '',
       hasErrors: false
     },
+    user: {
+      collection: [],
+      wishlist: [],
+      brandOptions: {'collection': ['All Brands'], 'wishlist': ['All Brands']}
+    },
     mainGuidePage: {},
     brands: {},
     listOfBrands: [],
