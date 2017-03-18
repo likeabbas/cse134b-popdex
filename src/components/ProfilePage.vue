@@ -85,13 +85,13 @@
     },
     created () {
       var vm = this
-      if (Object.keys(store.state.user.collection).length === 0) {
+      /* if (Object.keys(store.state.user.collection).length === 0) {
         console.log('fetching')
         this.fetchItems('collection')
       }
       if (store.state.user.wishlist.length === 0) {
         this.fetchItems('wishlist')
-      }
+      } */
       vm.itemUpdate()
     },
     watch: {
@@ -110,47 +110,6 @@
         UserService.deleteItemDB(vm.sharedState.firebase, item.brand, vm.gallery, item.uid)
 
         vm.displayedItems.splice(index, 1)
-      },
-      fetchItems (type) {
-        var vm = this
-        var fetch = UserService.getItems(vm.sharedState.firebase, 'pops', type)
-        if (fetch !== null) {
-          var list
-          if (type === 'collection') {
-            list = vm.collection
-          } else if (type === 'wishlist') {
-            list = vm.wishlist
-          }
-
-          fetch.on('child_added', function (data) {
-            console.log('child data\nkey: ' + data.key + '\ndata: ' + JSON.stringify(data.val()))
-            var objList = Object.keys(data.val()).map(function (key, idx) {
-              var obj = data.val()[key]
-              obj['uid'] = key
-              obj['brand'] = data.key
-              return obj
-            })
-            list[data.key] = objList
-            vm.brandOptions[type].push(data.key)
-          })
-
-          fetch.on('child_changed', function (data) {
-            console.log('child_changed')
-            console.log('child data\nkey: ' + data.key + '\ndata: ' + JSON.stringify(data.val()))
-            var objList = Object.keys(data.val()).map(function (key, idx) {
-              var obj = data.val()[key]
-              obj['uid'] = key
-              obj['brand'] = data.key
-              return obj
-            })
-            list[data.key] = objList
-          })
-          fetch.on('child_removed', function (data) {
-            console.log('child_removed')
-            console.log('child data\nkey: ' + data.key + '\ndata: ' + JSON.stringify(data.val()))
-            // need to remove from brand options and items
-          })
-        }
       },
       collectionDisplay () {
         this.gallery = 'collection'

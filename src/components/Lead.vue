@@ -103,7 +103,6 @@ export default {
           })
       }
     },
-
     isCached: function (imageUrl) {
       var img = new Image()
       try {
