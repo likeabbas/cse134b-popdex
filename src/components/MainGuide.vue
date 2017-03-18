@@ -74,7 +74,7 @@ export default {
       }
     },
     filterBrands: function () {
-      this.curBrands = Object.assign({}, filterService.filter(this.listOfBrands, this.brands, document.getElementById('mainGuideFilterSearch').value))
+      this.curBrands = Object.assign({}, filterService.filterBrands(this.listOfBrands, this.brands, document.getElementById('mainGuideFilterSearch').value))
     }
 
   }

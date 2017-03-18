@@ -3,7 +3,7 @@
     <div class="row">
       <div class="col s12">
         <div id='preContent'>  
-          <h3 class=mainButton>Guide Main Page</h3>
+          <h3 class=mainButton>{{brand}}</h3>
           <form action="#">
             <input id="itemFilterSearch" type=text name=filterSearch placeholder="Filter Search" v-on:keyup="filterItems()">
           </form>
