@@ -48,6 +48,13 @@ export default class UserService {
     .set(item)
   }
 
+  static updateQuantity (firebase, user, brand, uid, item, newQuantity) {
+    item.quantity = newQuantity
+    firebase.database()
+    .ref('/users/' + user.uid + '/collection/pops/' + brand + '/' + uid)
+    .set(item)
+  }
+
   static modifyWishlist (firebase, user, brand, uid, item, action) {
     if (action === 'remove') {
       item = null

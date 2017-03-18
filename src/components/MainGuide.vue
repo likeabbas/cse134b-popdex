@@ -51,6 +51,7 @@ export default {
       var vm = this
       // If we have fetched the brands before then don't fetch them again
       if (Object.keys(vm.sharedState.state.mainGuidePage).length === 0) {
+        console.log('fetching brands from service')
         FBService.fetchBrands(vm.sharedState.firebase)
           .then(function (data) {
             var brands = data.val()
@@ -60,10 +61,13 @@ export default {
             for (var key in brands) {
               vm.listOfBrands.push(brands[key].brand)
             }
+            vm.sharedState.state.listOfBrands = vm.listOfBrands
           }
         )
       } else {
+        console.log('Have have brands')
         vm.curBrands = vm.sharedState.state.mainGuidePage
+        vm.brands = vm.sharedState.state.mainGuidePage
         for (var key in vm.curBrands) {
           vm.listOfBrands.push(vm.curBrands[key].brand)
         }

@@ -24,7 +24,9 @@ module.exports = {
       hasErrors: false
     },
     mainGuidePage: {},
-    brands: {}
+    brands: {},
+    listOfBrands: [],
+    images: []
   },
   userlink: null,
   setMessageAction (newValue) {
