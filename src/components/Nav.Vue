@@ -21,7 +21,7 @@
 
   <div id="navigator">
     <div>
-      <router-link to="/guide">The Guide</router-link>
+      <router-link class="routerblack" to="/guide">The Guide</router-link>
     </div>
 
     <div v-on:click="goToMyStuff">My Stuff</div>
@@ -109,7 +109,7 @@ export default {
         } else if (type === 'wishlist') {
           list = vm.sharedState.state.user.wishlist
         }
-
+        var brandOptions = vm.sharedState.state.user.brandOptions[type]
         fetch.on('child_added', function (data) {
           console.log('child data\nkey: ' + data.key + '\ndata: ' + JSON.stringify(data.val()))
           var objList = Object.keys(data.val()).map(function (key, idx) {
@@ -137,6 +137,25 @@ export default {
           console.log('child_removed')
           console.log('child data\nkey: ' + data.key + '\ndata: ' + JSON.stringify(data.val()))
           // need to remove from brand options and items
+          if (type === 'collection') {
+            list = vm.sharedState.state.user.collection
+          } else if (type === 'wishlist') {
+            list = vm.sharedState.state.user.wishlist
+          }
+          var i = 0
+          for (; i < brandOptions.length; i++) {
+            if (brandOptions[i] === data.key) {
+              break
+            }
+          }
+          brandOptions.splice(i, 1)
+
+          for (i = 0; i < list.length; i++) {
+            if (list[data.key][i].uid === data.key) {
+              break
+            }
+          }
+          list[data.key].splice(i, 1)
         })
       }
     },

@@ -30,6 +30,9 @@
 #preContent {
   text-align: center;
 }
+.routerblack {
+  color: #000 !important;
+}
 .frontPagePopFrame {
   display: inline-block;
   width: 266px;

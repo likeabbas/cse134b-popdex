@@ -74,9 +74,9 @@ export default class UserService {
     .orderByKey()
   }
 
-  static checkForItem (firebase, user, brand, uid) {
+  static checkForItem (firebase, user, brand, uid, gallery) {
     var itemRef = firebase.database()
-    .ref('/users/' + user.uid + '/collection/pops/' + brand + '/' + uid)
+    .ref('/users/' + user.uid + '/' + gallery + '/pops/' + brand + '/' + uid)
     return itemRef.once('value')
   }
 }

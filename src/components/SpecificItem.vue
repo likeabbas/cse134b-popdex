@@ -12,7 +12,9 @@
 
         <div v-if="!owned">
           <a v-on:click="addToCollection" class="waves-effect waves-light btn">Add to Collection</a>
-          <a v-on:click="addToWishlist" class="waves-effect waves-light btn">Add to Wish List</a>
+
+          <a v-if="!wanted" v-on:click="addToWishlist" class="waves-effect waves-light btn">Add to Wishlist</a>
+          <a v-else v-on:click="removeFromWishlist" class="waves-effect waves-light btn">Remove from Wishlist</a> 
         </div>
 
         <div v-else>
@@ -61,37 +63,48 @@
     data () {
       return {
         owned: false,
+        wanted: false,
         sharedState: store,
         showUpdateQuantityModal: false
       }
     },
     created () {
-      this.checkOwned()
+      var vm = this
+      var user = vm.sharedState.firebase.auth().currentUser
+
+      if (user === null || user === undefined) {
+        return
+      }
+      this.checkStatus(user, 'collection')
+      this.checkStatus(user, 'wishlist')
     },
     watch: {
       showUpdateQuantityModal: function (val) {}
     },
     methods: {
-
-      checkOwned () {
+      checkStatus (user, gallery) {
         var vm = this
-        var user = vm.sharedState.firebase.auth().currentUser
 
-        if (user === null || user === undefined) {
-          return
-        }
-
-        UserService.checkForItem(vm.sharedState.firebase, user, vm.brand, vm.uid)
+        UserService.checkForItem(vm.sharedState.firebase, user, vm.brand, vm.uid, gallery)
 
         .then(function (data) {
           if (data.exists()) {
-            vm.owned = true
+            if (gallery === 'collection') {
+              vm.owned = true
+            } else if (gallery === 'wishlist') {
+              vm.wanted = true
+            }
           } else {
-            vm.owned = false
+            if (data.exists()) {
+              if (gallery === 'collection') {
+                vm.owned = false
+              } else if (gallery === 'wishlist') {
+                vm.wanted = false
+              }
+            }
           }
         })
       },
-
       addToCollection () {
         var vm = this
         var user = vm.sharedState.firebase.auth().currentUser
@@ -129,6 +142,20 @@
         }
 
         UserService.modifyWishlist(vm.sharedState.firebase, user, vm.brand, vm.uid, vm.item, 'add')
+        vm.wanted = true
+      },
+      removeFromWishlist () {
+        console.log('removing from wishlist')
+        var vm = this
+        var user = vm.sharedState.firebase.auth().currentUser
+
+        if (user === null || user === undefined) {
+          alert('Not logged in')
+          return
+        }
+
+        UserService.modifyWishlist(vm.sharedState.firebase, user, vm.brand, vm.uid, vm.item, 'remove')
+        vm.wanted = false
       }
     }
   }

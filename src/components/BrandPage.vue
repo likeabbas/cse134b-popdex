@@ -29,7 +29,7 @@
 </template>
 
 <script>
-  import CirclePop from '@/components/CirclePop'
+  import CirclePop from '@/components/GuideComponents/CirclePop'
   import store from '../services/storage'
   import filterService from '../services/filterService'
   import FBService from '../services/fbservice'
