@@ -33,7 +33,6 @@
         var vm = this
         var user = vm.sharedState.firebase.auth().currentUser
         var quantity = this.$refs.inputQuantity.value
-        console.log(quantity)
         if (!isNaN(quantity) && parseInt(quantity) > 0) {
           UserService.updateQuantity(vm.sharedState.firebase, user, vm.brand, vm.uid, vm.item, vm.$refs.inputQuantity.value)
         }

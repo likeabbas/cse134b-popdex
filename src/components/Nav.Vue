@@ -4,7 +4,7 @@
   <nav>
     <div id="header" class="nav-wrapper">
     
-          <a href="#" class="brand-logo">PopDex!&nbsp;&nbsp;<small>The Definitive Guide!</small></a>
+          <a href="#" class="brand-logo">PopDex!&nbsp;&nbsp;<small>The Definitive Guide</small></a>
 
           <ul v-if="!isAuthenticated" class="right hide-on-med-and-down">
             <li><a v-on:click="showLoginModal = true" >Login</a></li>
@@ -59,10 +59,7 @@ export default {
       var vm = this
       vm.sharedState.firebase.auth()
       .onAuthStateChanged(function (user) {
-        console.log('auth changed')
         if (user !== null) {
-          console.log('true')
-          console.log(JSON.stringify(user))
           vm.sharedState.state.auth.user = user
           vm.sharedState.state.userlink = user.uid
           if (vm.loadUserItems) {
@@ -71,7 +68,6 @@ export default {
             vm.loadUserItems = false
           }
         } else {
-          console.log('false')
           vm.sharedState.state.auth.user = null
           vm.sharedState.state.userlink = null
           vm.sharedState.state.user.collection = []
@@ -100,7 +96,6 @@ export default {
     },
     fetchUserItems (type) {
       var vm = this
-      console.log('getting user ' + type)
       var fetch = UserService.getItems(vm.sharedState.firebase, 'pops', type)
       if (fetch !== null) {
         var list
@@ -111,7 +106,6 @@ export default {
         }
         var brandOptions = vm.sharedState.state.user.brandOptions[type]
         fetch.on('child_added', function (data) {
-          console.log('child data\nkey: ' + data.key + '\ndata: ' + JSON.stringify(data.val()))
           var objList = Object.keys(data.val()).map(function (key, idx) {
             var obj = data.val()[key]
             obj['uid'] = key
@@ -123,8 +117,6 @@ export default {
         })
 
         fetch.on('child_changed', function (data) {
-          console.log('child_changed')
-          console.log('child data\nkey: ' + data.key + '\ndata: ' + JSON.stringify(data.val()))
           var objList = Object.keys(data.val()).map(function (key, idx) {
             var obj = data.val()[key]
             obj['uid'] = key
@@ -134,8 +126,6 @@ export default {
           list[data.key] = objList
         })
         fetch.on('child_removed', function (data) {
-          console.log('child_removed')
-          console.log('child data\nkey: ' + data.key + '\ndata: ' + JSON.stringify(data.val()))
           // need to remove from brand options and items
           if (type === 'collection') {
             list = vm.sharedState.state.user.collection

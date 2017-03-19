@@ -41,7 +41,6 @@ export default {
   },
   methods: {
     fetchData: function () {
-      console.log('fetch trending')
       var vm = this
       FBService.fetchTrending(this.sharedState.firebase)
       .then(
@@ -62,14 +61,12 @@ export default {
       var guideData = vm.sharedState.state.brandData
 
       if (Object.keys(guideData).length === 0) {
-        console.log('fetching brands from service')
         FBService.fetchBrands(vm.sharedState.firebase)
           .then(function (data) {
             var rawData = data.val()
             var brandList = []
 
             for (var key in rawData) {
-              console.log(key)
               var obj = rawData[key]
               obj.uid = key
               brandList.push(obj)
@@ -81,9 +78,6 @@ export default {
 
             vm.sharedState.state.brandData = brandList
 
-            console.log('GUIDE DATA' + vm.sharedState.state.brandData)
-
-            console.log('after fetch')
             for (var i = 0; i < brandList.length; i++) {
               vm.fetchBrandItems(brandList[i].brand)
             }
@@ -99,7 +93,6 @@ export default {
         itemMap[curBrand] = []
         FBService.fetchByBrand(vm.sharedState.firebase, curBrand)
           .then(function (data) {
-            console.log(data.val())
             brands[curBrand] = data.val()
           })
           .then(async function () {
@@ -116,7 +109,6 @@ export default {
                 vm.isCached(curImageSource)
               }
 
-              console.log('couldn\'t get image')
               await vm.awaitingFunction(img, curImageSource)
               i++
             }
@@ -128,7 +120,6 @@ export default {
       try {
         img.src = imageUrl
       } catch (e) {
-        console.log('could not get image')
       }
       return img.complete || (img.width + img.height) > 0
     },

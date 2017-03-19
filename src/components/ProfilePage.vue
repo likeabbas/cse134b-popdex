@@ -82,13 +82,6 @@
     },
     created () {
       var vm = this
-      /* if (Object.keys(store.state.user.collection).length === 0) {
-        console.log('fetching')
-        this.fetchItems('collection')
-      }
-      if (store.state.user.wishlist.length === 0) {
-        this.fetchItems('wishlist')
-      } */
       vm.itemUpdate()
     },
     watch: {
@@ -146,7 +139,6 @@
           vm.displayedItems = []
           for (var prop in list) {
             for (var idx = 0; idx < list[prop].length; idx++) {
-              console.log(list[prop][idx])
               vm.displayedItems.push(list[prop][idx])
             }
           }
@@ -160,7 +152,6 @@
         } else {
           vm.dataLoaded = false
         }
-        console.log(vm.displayedItems)
       }
     }
 }

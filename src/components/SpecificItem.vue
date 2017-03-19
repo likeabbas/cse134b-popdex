@@ -156,7 +156,6 @@
         vm.wanted = true
       },
       removeFromWishlist () {
-        console.log('removing from wishlist')
         var vm = this
         var user = vm.sharedState.firebase.auth().currentUser
 

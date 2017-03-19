@@ -24,11 +24,9 @@
     var provider = new firebase.auth.GoogleAuthProvider()
     firebase.auth().signInWithPopup(provider)
       .then(function (result) {
-        console.log('successfully logged in google')
         vm.sharedState.state.auth.credential = result.credential
         vm.sharedState.state.auth.user = result.user
         vm.$emit('close')
-        console.log('result google: \n' + JSON.stringify(result))
       }).catch(function (error) {
         alert(error.message)
       })
@@ -50,8 +48,6 @@
 
     fb.auth().signInWithEmailAndPassword(vm.email, vm.password)
       .then(function (data) {
-        console.log('Succesfully logged in')
-        console.log(data)
         vm.sharedState.state.auth.email = vm.email
         vm.sharedState.state.auth.user = fb.auth().currentUser
         vm.$emit('close')
