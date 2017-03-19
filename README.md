@@ -80,4 +80,12 @@ Features -
 
   4) Implement code splitting to decrease the time to first byte 
 
+#D Caveats of Service Workers right now
+
+The main difficulty point of adding service workers right now is that the webpack plugin for them does not allow wild card addresses.
+Pop toys come somewhat frequently, and it's a hassle to have to update the service worker file for the specific images. So,
+we chose to leave it out at this point. If the maintainer of the webpack plugin would accept a pull request to add wild cards, we will add it
+
+
+
 
