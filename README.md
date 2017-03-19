@@ -14,6 +14,8 @@ data specific to the user.
 
 Built and currently maintained by Abbas Dharamsey and Adam Setters
 
+![alt tag](PopDex-Offline.gif)
+
 ## Build Setup
 
 ``` bash
