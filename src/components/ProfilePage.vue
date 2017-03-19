@@ -150,7 +150,6 @@
               vm.displayedItems.push(list[prop][idx])
             }
           }
-          // console.log(vm.displayedItems)
         } else {
           vm.displayedItems = list[vm.selectedBrand]
         }

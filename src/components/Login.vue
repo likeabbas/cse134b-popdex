@@ -20,8 +20,9 @@
   import LoginService from '../services/service'
   function googleLogin () {
     var vm = this
-    var provider = new vm.sharedState.firebase.auth.GoogleAuthProvider()
-    vm.sharedState.firebase.auth().signInWithPopup(provider)
+    var firebase = vm.sharedState.firebase
+    var provider = new firebase.auth.GoogleAuthProvider()
+    firebase.auth().signInWithPopup(provider)
       .then(function (result) {
         console.log('successfully logged in google')
         vm.sharedState.state.auth.credential = result.credential
@@ -30,28 +31,24 @@
         console.log('result google: \n' + JSON.stringify(result))
       }).catch(function (error) {
         alert(error.message)
-        /* var errorCode = error.code;
-        var errorMessage = error.message;
-        var email = error.email;
-        var credential = error.credential; */
       })
   }
 
   function loggingIn () {
-    var fb = this.sharedState.firebase
-    var auth = this.sharedState.state.auth
     var vm = this
+    var fb = vm.sharedState.firebase
+    var auth = vm.sharedState.state.auth
 
-    if (!LoginService.validateEmail(this.email)) {
+    if (!LoginService.validateEmail(vm.email)) {
       alert('Email address not valid!')
       return
     }
-    if (!LoginService.passwordSecurity(this.password)) {
+    if (!LoginService.passwordSecurity(vm.password)) {
       alert('Password does not meet security requirements')
       return
     }
 
-    fb.auth().signInWithEmailAndPassword(this.email, this.password)
+    fb.auth().signInWithEmailAndPassword(vm.email, vm.password)
       .then(function (data) {
         console.log('Succesfully logged in')
         console.log(data)

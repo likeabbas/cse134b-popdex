@@ -43,9 +43,6 @@ export default {
   created () {
     this.fetchBrandsMain()
   },
-  watch: {
-    // '$route': 'fetchTrending'
-  },
   methods: {
     fetchBrandsMain: function () {
       var vm = this
@@ -74,7 +71,10 @@ export default {
       }
     },
     filterBrands: function () {
-      this.curBrands = Object.assign({}, filterService.filterBrands(this.listOfBrands, this.brands, document.getElementById('mainGuideFilterSearch').value))
+      var vm = this
+      vm.curBrands = Object.assign({},
+        filterService.filterBrands(vm.listOfBrands, vm.brands,
+          document.getElementById('mainGuideFilterSearch').value))
     }
 
   }

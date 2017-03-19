@@ -59,42 +59,54 @@ export default {
     },
     fetchBrandData: function () {
       var vm = this
-      if (Object.keys(vm.sharedState.state.mainGuidePage).length === 0) {
+      var guideData = vm.sharedState.state.mainGuidePage
+      var brandData = vm.sharedState.state.listOfBrands
+
+      if (Object.keys(guideData).length === 0) {
         console.log('fetching brands from service')
         FBService.fetchBrands(vm.sharedState.firebase)
           .then(function (data) {
             vm.sharedState.state.mainGuidePage = data.val()
-            console.log(vm.sharedState.state.mainGuidePage)
-            for (var key in vm.sharedState.state.mainGuidePage) {
-              console.log(vm.sharedState.state.mainGuidePage[key].brand)
-              vm.sharedState.state.listOfBrands.push(vm.sharedState.state.mainGuidePage[key].brand)
+
+            console.log('GUIDE DATA' + guideData)
+            for (var key in guideData) {
+              // console.log(guideData[key].brand)
+              brandData.push(guideData[key].brand)
             }
+            // console.log(brandData)
+            vm.sharedState.state.listOfBrands =
+              brandData.sort(function (a, b) {
+                return a.localeCompare(b)
+              })
+            console.log(vm.sharedState.state.listOfBrands)
             console.log('after fetch')
-            for (var i = 0; i < vm.sharedState.state.listOfBrands.length; i++) {
-              console.log(vm.sharedState.state.listOfBrands[i])
-              vm.fetchBrandItems(vm.sharedState.state.listOfBrands[i])
+            for (var i = 0; i < brandData.length; i++) {
+              // console.log(brandData[i])
+              vm.fetchBrandItems(brandData[i])
             }
           })
       }
     },
-
     fetchBrandItems: function (curBrand) {
       var vm = this
-      if (vm.sharedState.state.brands[curBrand] === undefined) {
-        vm.sharedState.state.brandToListOfItemNames[curBrand] = []
+      var brands = vm.sharedState.state.brands
+      var itemMap = vm.sharedState.state.brandToListOfItemNames
+
+      if (brands[curBrand] === undefined) {
+        itemMap[curBrand] = []
         FBService.fetchByBrand(vm.sharedState.firebase, curBrand)
           .then(function (data) {
             console.log(data.val())
-            vm.sharedState.state.brands[curBrand] = data.val()
+            brands[curBrand] = data.val()
           })
           .then(async function () {
             var i = 0
-            for (var key in (vm.sharedState.state.brands[curBrand])) {
-              var curImageSource = vm.sharedState.state.brands[curBrand][key].picture_src
-              var curItemName = vm.sharedState.state.brands[curBrand][key].name
+            for (var key in (brands[curBrand])) {
+              var curImageSource = brands[curBrand][key].picture_src
+              var curItemName = brands[curBrand][key].name
 
               vm.sharedState.state.images[i] = curImageSource
-              vm.sharedState.state.brandToListOfItemNames[curBrand].push(curItemName)
+              itemMap[curBrand].push(curItemName)
 
               var img = new Image()
               img.onload = function () {

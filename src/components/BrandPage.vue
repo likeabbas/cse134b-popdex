@@ -9,12 +9,8 @@
           </form>
         </div>
       </div>
-      <!-- <br><br><br><br><br><br>  -->
+      
       <div class=guideContent> 
-       <!-- <router-link v-for="(item, key) of items" 
-                    :brand="brand" 
-                    :attributes="key"
-                    :to="{name: 'item', --> 
 
         <CirclePop  v-for="(item, key) of curItems"
                    v-bind:brand="brand" 
@@ -22,7 +18,7 @@
                    v-bind:uid="key"
                    :key="key">
                    </CirclePop>
-                   <!-- </router-link> -->
+
       </div>
     </div>
   </div>
