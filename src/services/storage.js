@@ -28,7 +28,7 @@ module.exports = {
       wishlist: [],
       brandOptions: {'collection': ['All Brands'], 'wishlist': ['All Brands']}
     },
-    mainGuidePage: {},
+    brandData: [],
     brands: {},
     listOfBrands: [],
     images: [],

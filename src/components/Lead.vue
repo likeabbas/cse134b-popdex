@@ -59,30 +59,33 @@ export default {
     },
     fetchBrandData: function () {
       var vm = this
-      var guideData = vm.sharedState.state.mainGuidePage
-      var brandData = vm.sharedState.state.listOfBrands
+      var guideData = vm.sharedState.state.brandData
 
       if (Object.keys(guideData).length === 0) {
         console.log('fetching brands from service')
         FBService.fetchBrands(vm.sharedState.firebase)
           .then(function (data) {
-            vm.sharedState.state.mainGuidePage = data.val()
+            var rawData = data.val()
+            var brandList = []
 
-            console.log('GUIDE DATA' + guideData)
-            for (var key in guideData) {
-              // console.log(guideData[key].brand)
-              brandData.push(guideData[key].brand)
+            for (var key in rawData) {
+              console.log(key)
+              var obj = rawData[key]
+              obj.uid = key
+              brandList.push(obj)
             }
-            // console.log(brandData)
-            vm.sharedState.state.listOfBrands =
-              brandData.sort(function (a, b) {
-                return a.localeCompare(b)
-              })
-            console.log(vm.sharedState.state.listOfBrands)
+
+            brandList = brandList.sort(function (a, b) {
+              return a.brand.localeCompare(b.brand)
+            })
+
+            vm.sharedState.state.brandData = brandList
+
+            console.log('GUIDE DATA' + vm.sharedState.state.brandData)
+
             console.log('after fetch')
-            for (var i = 0; i < brandData.length; i++) {
-              // console.log(brandData[i])
-              vm.fetchBrandItems(brandData[i])
+            for (var i = 0; i < brandList.length; i++) {
+              vm.fetchBrandItems(brandList[i].brand)
             }
           })
       }

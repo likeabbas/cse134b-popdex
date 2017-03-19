@@ -13,9 +13,9 @@
 
       <div class=guideContent>
 
-        <Franchise v-for="(brand, key) in curBrands"
+        <Franchise v-for="(brand, index) in curBrands"
                    v-bind:brand="brand"
-                   :key="key">
+                   :key="brand.uid">
         </Franchise>
 
       </div>
@@ -34,10 +34,9 @@ export default {
   components: {Franchise},
   data: function () {
     return {
-      brands: {},
+      brands: [],
       sharedState: store,
-      curBrands: {},
-      listOfBrands: []
+      curBrands: []
     }
   },
   created () {
@@ -47,33 +46,38 @@ export default {
     fetchBrandsMain: function () {
       var vm = this
       // If we have fetched the brands before then don't fetch them again
-      if (Object.keys(vm.sharedState.state.mainGuidePage).length === 0) {
+      if (vm.sharedState.state.brandData.length === 0) {
         console.log('fetching brands from service')
         FBService.fetchBrands(vm.sharedState.firebase)
           .then(function (data) {
-            var brands = data.val()
-            vm.brands = brands
-            vm.sharedState.state.mainGuidePage = brands
-            vm.curBrands = brands
-            for (var key in brands) {
-              vm.listOfBrands.push(brands[key].brand)
+            var rawData = data.val()
+            var brandList = []
+
+            for (var key in rawData) {
+              console.log(key)
+              var obj = rawData[key]
+              obj.uid = key
+              brandList.push(obj)
             }
-            vm.sharedState.state.listOfBrands = vm.listOfBrands
+
+            brandList = brandList.sort(function (a, b) {
+              return a.brand.localeCompare(b.brand)
+            })
+            vm.brands = brandList
+            vm.sharedState.state.brandData = brandList
+            vm.curBrands = brandList
           }
         )
       } else {
         console.log('Have have brands')
-        vm.curBrands = vm.sharedState.state.mainGuidePage
-        vm.brands = vm.sharedState.state.mainGuidePage
-        for (var key in vm.curBrands) {
-          vm.listOfBrands.push(vm.curBrands[key].brand)
-        }
+        vm.curBrands = vm.sharedState.state.brandData
+        vm.brands = vm.sharedState.state.brandData
       }
     },
     filterBrands: function () {
       var vm = this
       vm.curBrands = Object.assign({},
-        filterService.filterBrands(vm.listOfBrands, vm.brands,
+        filterService.filterBrands(vm.brands,
           document.getElementById('mainGuideFilterSearch').value))
     }
 
