@@ -4,10 +4,10 @@
       
       <div class="col s6">
 
-        <ItemView  
+        <ItemView v-if="displayItem"  
           v-bind:itemBrand="brand" 
-          v-bind:itemName="item.name" 
-          v-bind:itemPictureSource="item.picture_src">
+          v-bind:itemName="itemData.name" 
+          v-bind:itemPictureSource="itemData.picture_src">
         </ItemView>
 
         <div v-if="!owned">
@@ -29,21 +29,21 @@
         <table>
           <tr>
             <td>Market Price</td>
-            <td style="font-style: italic">{{item.price}}</td>
+            <td style="font-style: italic">{{itemData.price}}</td>
           </tr>
           <tr>
             <td>Edition Size</td>
-            <td style="font-style: italic">{{item.edition}}</td>
+            <td style="font-style: italic">{{itemData.edition}}</td>
           </tr>
           <tr v-if="owned">
             <td>Quantity</td>
-            <td>{{item.quantity}}</td>
+            <td>{{itemData.quantity}}</td>
             <td><button class="btn" v-on:click="showUpdateQuantityModal = true">Update</button></td>
           </tr>
         </table>
       </div>
     </div>
-  <UpdateQuantity v-bind:item="item" v-bind:brand="brand" v-bind:uid="uid" v-if="showUpdateQuantityModal" @close="showUpdateQuantityModal = false"></UpdateQuantity>
+  <UpdateQuantity v-bind:item="itemData" v-bind:brand="brand" v-bind:uid="uid" v-if="showUpdateQuantityModal" @close="showUpdateQuantityModal = false"></UpdateQuantity>
   </div>
   
 </template>
@@ -65,12 +65,22 @@
         owned: false,
         wanted: false,
         sharedState: store,
-        showUpdateQuantityModal: false
+        showUpdateQuantityModal: false,
+        itemData: this.item,
+        displayItem: false
       }
     },
     created () {
       var vm = this
       var user = vm.sharedState.firebase.auth().currentUser
+
+      if (vm.itemData === undefined || vm.itemData === null) {
+        var brandName = vm.$route.params.brandName
+        var itemId = vm.$route.params.itemId
+        vm.itemData = vm.sharedState.state.brands[brandName][itemId]
+      }
+
+      vm.displayItem = true
 
       if (user === null || user === undefined) {
         return
@@ -81,6 +91,7 @@
     watch: {
       showUpdateQuantityModal: function (val) {}
     },
+
     methods: {
       checkStatus (user, gallery) {
         var vm = this
@@ -114,8 +125,8 @@
           return
         }
 
-        UserService.modifyCollection(vm.sharedState.firebase, user, vm.brand, vm.uid, vm.item, 'add')
-        UserService.updateQuantity(vm.sharedState.firebase, user, vm.brand, vm.uid, vm.item, 1)
+        UserService.modifyCollection(vm.sharedState.firebase, user, vm.brand, vm.uid, vm.itemData, 'add')
+        UserService.updateQuantity(vm.sharedState.firebase, user, vm.brand, vm.uid, vm.itemData, 1)
         vm.owned = true
       },
 
@@ -128,7 +139,7 @@
           return
         }
 
-        UserService.modifyCollection(vm.sharedState.firebase, user, vm.brand, vm.uid, vm.item, 'remove')
+        UserService.modifyCollection(vm.sharedState.firebase, user, vm.brand, vm.uid, vm.itemData, 'remove')
         vm.owned = false
       },
 
@@ -141,7 +152,7 @@
           return
         }
 
-        UserService.modifyWishlist(vm.sharedState.firebase, user, vm.brand, vm.uid, vm.item, 'add')
+        UserService.modifyWishlist(vm.sharedState.firebase, user, vm.brand, vm.uid, vm.itemData, 'add')
         vm.wanted = true
       },
       removeFromWishlist () {
@@ -154,7 +165,7 @@
           return
         }
 
-        UserService.modifyWishlist(vm.sharedState.firebase, user, vm.brand, vm.uid, vm.item, 'remove')
+        UserService.modifyWishlist(vm.sharedState.firebase, user, vm.brand, vm.uid, vm.itemData, 'remove')
         vm.wanted = false
       }
     }

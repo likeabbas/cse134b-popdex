@@ -30,7 +30,6 @@ module.exports = {
     },
     brandData: [],
     brands: {},
-    listOfBrands: [],
     images: [],
     brandToListOfItemNames: {}
   },
