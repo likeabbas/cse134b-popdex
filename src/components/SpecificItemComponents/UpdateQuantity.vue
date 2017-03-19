@@ -3,7 +3,7 @@
   <div class='modal-mask'>
     <div class='modal-wrapper'>
       <div class="container modal-container">
-        <h4>Sign up, it's easy!</h4>
+        <h4>Update Item Quantity</h4>
         <form>
           <input v-model:text="newQuantity" id="inputQuantity" ref="inputQuantity" type="text" placeholder="Quantity" name=quantity><br>
         </form>
